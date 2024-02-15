@@ -1,4 +1,4 @@
-import 'package:fitness/ui/home_view.dart';
+import 'package:fitness/ui/main_view.dart';
 import 'package:flutter/material.dart';
 import './constants/colors.dart';
 
@@ -30,8 +30,14 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           foregroundColor: Colors.white,
         ),
+
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.indigo,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+        ),
       ),
-      home: const HomeView(),
+      home: const BottomNavigationBarExample(),
     );
   }
 }
