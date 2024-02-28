@@ -1,6 +1,6 @@
-import 'package:fitness/ui/ekran.dart';
-import 'package:fitness/ui/ekran_2.dart';
-import 'package:fitness/ui/ekran_3.dart';
+import 'package:fitness/screens/ekran.dart';
+import 'package:fitness/screens/ekran_2.dart';
+import 'package:fitness/screens/ekran_3.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationBarExample extends StatefulWidget {

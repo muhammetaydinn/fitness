@@ -1,4 +1,5 @@
-import 'package:fitness/ui/main_view.dart';
+import 'package:fitness/screens/main_view.dart';
+import 'package:fitness/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import './constants/colors.dart';
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           unselectedItemColor: Colors.grey,
         ),
       ),
-      home: const BottomNavigationBarExample(),
+      home: RegisterScreen(),
     );
   }
 }
