@@ -1,9 +1,14 @@
+import 'package:fitness/screens/auth_screen.dart';
+import 'package:fitness/screens/login_screen.dart';
 import 'package:fitness/screens/main_view.dart';
 import 'package:fitness/screens/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import './constants/colors.dart';
 
-void main() {
+Future<void> main() async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -12,7 +17,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      routes: {
+        '/': (context) => AuthScreen(),
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/main': (context) => const MainScreen(),
+      },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       darkTheme: ThemeData(
@@ -38,7 +49,6 @@ class MyApp extends StatelessWidget {
           unselectedItemColor: Colors.grey,
         ),
       ),
-      home: RegisterScreen(),
     );
   }
 }

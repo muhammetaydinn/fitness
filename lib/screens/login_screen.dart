@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
+import 'package:get/get.dart';
 
-import '../stores/login_store.dart';
+import '../controller/all_controller.dart';
 import 'register_screen.dart'; // Import the register screen
 
 class LoginScreen extends StatelessWidget {
-  final _loginStore = LoginStore();
-
   LoginScreen({super.key});
+  final AllController allController = Get.put(AllController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class LoginScreen extends StatelessWidget {
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
-              onChanged: _loginStore.setEmail,
+              onChanged: allController.loginEmail,
             ),
             const SizedBox(height: 16.0),
             TextField(
@@ -32,24 +31,26 @@ class LoginScreen extends StatelessWidget {
               decoration: const InputDecoration(
                 labelText: 'Password',
               ),
-              onChanged: _loginStore.setPassword,
+              onChanged: allController.loginPassword,
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                _loginStore.login();
-              },
-              child: const Text('Login'),
+            Obx(
+              () => ElevatedButton(
+                onPressed: allController.loginEmail.isNotEmpty &&
+                        allController.loginPassword.isNotEmpty
+                    ? () {
+                        allController.login();
+                      }
+                    : null,
+                child: const Text('Login'),
+              ),
             ),
             const SizedBox(height: 16.0),
             TextButton(
               onPressed: () {
                 // Add your login logic here
                 //navigate to login screen
-                Navigator.pop(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()),
-                );
+                Get.toNamed('/register');
               },
               child: const Text('Haven\'t registered yet? Register here!'),
             ),

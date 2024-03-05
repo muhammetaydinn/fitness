@@ -33,6 +33,5 @@ abstract class _LoginStore with Store {
     );
     print(response);
 
-    // here we will call the api to register the user
   }
 }
