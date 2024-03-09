@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-class ExercisesModel {
+class MovementModel {
+  int? id;
   String name;
   String? force;
   String level;
@@ -13,7 +14,8 @@ class ExercisesModel {
   List<String> secondaryMuscles;
   List<String> instructions;
   String category;
-  ExercisesModel({
+  MovementModel({
+    required this.id,
     required this.name,
     this.force,
     required this.level,
@@ -25,7 +27,8 @@ class ExercisesModel {
     required this.category,
   });
 
-  ExercisesModel copyWith({
+  MovementModel copyWith({
+    int? id,
     String? name,
     String? force,
     String? level,
@@ -36,7 +39,8 @@ class ExercisesModel {
     List<String>? instructions,
     String? category,
   }) {
-    return ExercisesModel(
+    return MovementModel(
+      id: id ?? this.id,
       name: name ?? this.name,
       force: force ?? this.force,
       level: level ?? this.level,
@@ -51,6 +55,7 @@ class ExercisesModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'name': name,
       'force': force,
       'level': level,
@@ -63,8 +68,9 @@ class ExercisesModel {
     };
   }
 
-  factory ExercisesModel.fromMap(Map<String, dynamic> map) {
-    return ExercisesModel(
+  factory MovementModel.fromMap(Map<String, dynamic> map, int i) {
+    return MovementModel(
+      id: i,
       name: map['name'] as String,
       force: map['force'] != null ? map['force'] as String : null,
       level: map['level'] as String,
@@ -81,19 +87,20 @@ class ExercisesModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ExercisesModel.fromJson(String source) =>
-      ExercisesModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory MovementModel.fromJson(String source, int index) =>
+      MovementModel.fromMap(json.decode(source) as Map<String, dynamic>, index);
 
   @override
   String toString() {
-    return 'ExercisesModel(name: $name, force: $force, level: $level, mechanic: $mechanic, equipment: $equipment, primaryMuscles: $primaryMuscles, secondaryMuscles: $secondaryMuscles, instructions: $instructions, category: $category)';
+    return 'MovementModel(id: $id, name: $name, force: $force, level: $level, mechanic: $mechanic, equipment: $equipment, primaryMuscles: $primaryMuscles, secondaryMuscles: $secondaryMuscles, instructions: $instructions, category: $category)';
   }
 
   @override
-  bool operator ==(covariant ExercisesModel other) {
+  bool operator ==(covariant MovementModel other) {
     if (identical(this, other)) return true;
 
-    return other.name == name &&
+    return other.id == id &&
+        other.name == name &&
         other.force == force &&
         other.level == level &&
         other.mechanic == mechanic &&
@@ -106,7 +113,8 @@ class ExercisesModel {
 
   @override
   int get hashCode {
-    return name.hashCode ^
+    return id.hashCode ^
+        name.hashCode ^
         force.hashCode ^
         level.hashCode ^
         mechanic.hashCode ^

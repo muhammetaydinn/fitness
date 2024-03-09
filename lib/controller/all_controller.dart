@@ -1,6 +1,8 @@
 //write getx controller here
 // ignore_for_file: prefer_final_fields
 
+import 'package:fitness/model/DayModel.dart';
+import 'package:fitness/model/ProgramModel.dart';
 import 'package:fitness/service/register_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -50,6 +52,17 @@ class AllController extends GetxController {
   RegisterResponseModel get registerResponseModel {
     return _registerResponseModel.value;
   }
+  Rx<ProgramModel> programModel = ProgramModel(
+    name: "",
+    days: <Day>[],
+    dayId: ""
+  ).obs;
+  ProgramModel get getProgramModel => programModel.value;
+  set setProgramModel(value) => programModel.value = value;
+  List<Day> days = <Day>[].obs;
+  get getDays => days;
+  set setDays(value) => days = value;
+
 
   set registerResponseModel(value) => _registerResponseModel.value = value;
 

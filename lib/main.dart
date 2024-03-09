@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import './constants/colors.dart';
+import 'screens/add_exercises.dart';
 
 Future<void> main() async {
   await GetStorage.init();
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/main': (context) => const MainScreen(),
+        '/addExercise': (context) => const AddExercisesScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

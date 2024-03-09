@@ -1,5 +1,5 @@
 import 'package:fitness/data/convert_to_snake_case.dart';
-import 'package:fitness/model/ExercisesModel.dart';
+import 'package:fitness/model/MovementModel.dart';
 import 'package:flutter/material.dart';
 
 import '../data/load_json.dart';
@@ -12,7 +12,7 @@ class Ekran extends StatefulWidget {
 }
 
 class _EkranState extends State<Ekran> {
-  List<ExercisesModel> exercisesList = [];
+  List<MovementModel> exercisesList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -51,6 +51,7 @@ class _EkranState extends State<Ekran> {
                       return ListTile(
                           title: Text(exercisesList[index].name),
                           // subtitle: Text(exercisesList[index].level),
+                          leading: Text(exercisesList[index].id.toString()),
                           subtitle: Text(
                               convertToSnakeCase(exercisesList[index].name)),
                           trailing:
