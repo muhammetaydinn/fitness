@@ -2,6 +2,10 @@ import 'package:fitness/screens/ekran.dart';
 import 'package:fitness/screens/ekran_2.dart';
 import 'package:fitness/screens/ekran_3.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controller/all_controller.dart';
+import '../data/load_json.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -11,6 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final _allController = Get.put(AllController());
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -23,6 +28,15 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    loadJsonData().then((value) {
+      _allController.setMovementList(value);
+    });
+    super.initState();
   }
 
   @override

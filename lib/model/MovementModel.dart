@@ -68,7 +68,7 @@ class MovementModel {
     };
   }
 
-  factory MovementModel.fromMap(Map<String, dynamic> map, int i) {
+  factory MovementModel.fromMap(Map<String, dynamic> map, {int i = 0}) {
     return MovementModel(
       id: i,
       name: map['name'] as String,
@@ -88,7 +88,7 @@ class MovementModel {
   String toJson() => json.encode(toMap());
 
   factory MovementModel.fromJson(String source, int index) =>
-      MovementModel.fromMap(json.decode(source) as Map<String, dynamic>, index);
+      MovementModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

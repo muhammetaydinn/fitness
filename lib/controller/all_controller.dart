@@ -1,23 +1,18 @@
-//write getx controller here
-// ignore_for_file: prefer_final_fields
 
 import 'package:fitness/model/DayModel.dart';
+import 'package:fitness/model/MovementModel.dart';
 import 'package:fitness/model/ProgramModel.dart';
 import 'package:fitness/service/register_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../model/ExerciseModel.dart';
 import '../model/RegisterResponseModel.dart';
 import '../service/login_service.dart';
 
 class AllController extends GetxController {
-  var _count = 0.obs;
-  get count => _count.value;
-  set count(value) => _count.value = value;
-  // email and password name and lastname
   var name = ''.obs;
   get getName => name.value;
   set setName(value) => name.value = value;
@@ -46,27 +41,58 @@ class AllController extends GetxController {
   get getIsLoggedin => isLoggedin.value;
   set setIsLoggedin(value) => isLoggedin.value = value;
 
+  var programName = ''.obs;
+  get getProgramName => programName.value;
+  set setProgramName(value) => programName.value = value;
+
+  var dayNumber = "".obs;
+  get getDayNumber => dayNumber.value;
+  set setDayNumber(value) => dayNumber.value = value;
+
+  //selected exercises list
+  var selectedExercises = <ExcerciseModel>[].obs;
+  get getSelectedExercises => selectedExercises;
+  set setSelectedExercises(value) => selectedExercises = value;
+
+  // var dayName = ''.obs;
+  // get getDayName => dayName.value;
+  // set setDayName(value) => dayName.value = value;
+  // final programNameController = TextEditingController().obs;
+  // TextEditingController get getProgramNameController =>
+  //     programNameController.value;
+  // set setProgramNameController(value) => programNameController.value = value;
+
+  // final dayNumberController = TextEditingController().obs;
+  // TextEditingController get getTextController => dayNumberController.value;
+  // set setTextController(value) => dayNumberController.value = value;
+
+  final dayNameController = TextEditingController().obs;
+  TextEditingController get getDayNameController => dayNameController.value;
+  set setDayNameController(value) => dayNameController.value = value;
+
   final GetStorage box = GetStorage();
   Rx<RegisterResponseModel> _registerResponseModel =
       RegisterResponseModel(accessToken: null, refreshToken: null).obs;
   RegisterResponseModel get registerResponseModel {
     return _registerResponseModel.value;
   }
-  Rx<ProgramModel> programModel = ProgramModel(
-    name: "",
-    days: <Day>[],
-    dayId: ""
-  ).obs;
+
+  Rx<ProgramModel> programModel =
+      ProgramModel(name: "", days: <Day>[], dayId: "").obs;
   ProgramModel get getProgramModel => programModel.value;
   set setProgramModel(value) => programModel.value = value;
   List<Day> days = <Day>[].obs;
   get getDays => days;
   set setDays(value) => days = value;
 
-
   set registerResponseModel(value) => _registerResponseModel.value = value;
 
   var _isValid = false.obs;
+
+  RxList<MovementModel> movementList = <MovementModel>[].obs;
+  void setMovementList(List<MovementModel> value) {
+    movementList.assignAll(value);
+  }
 
   Future<void> register() async {
     print(
@@ -98,5 +124,18 @@ class AllController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  void addSelectedExercise(MovementModel movementModel) {
+    //  add selected exercises list to our allcontroller days i exercises list
+    selectedExercises.add(
+      ExcerciseModel(
+        movement: movementModel,
+        movementId: movementModel.id,
+        reps: 0,
+        weightDuration: 0,
+        set: 0,
+      ),
+    );
   }
 }

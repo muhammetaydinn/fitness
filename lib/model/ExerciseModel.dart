@@ -4,15 +4,17 @@ import 'dart:convert';
 import 'package:fitness/model/MovementModel.dart';
 
 class ExcerciseModel {
-  int? set;
-  int? reps;
-  int? weightDuration;
-  int? movementId;
+  int? set=0;
+  int? reps = 0;
+  int? weightDuration = 0;
+  int? movementId= 0;
+  MovementModel? movement;
   ExcerciseModel({
     this.set,
     this.reps,
     this.weightDuration,
     this.movementId,
+    this.movement,
   });
 
   ExcerciseModel copyWith({
@@ -20,12 +22,14 @@ class ExcerciseModel {
     int? reps,
     int? weightDuration,
     int? movementId,
+    MovementModel? movement,
   }) {
     return ExcerciseModel(
       set: set ?? this.set,
       reps: reps ?? this.reps,
       weightDuration: weightDuration ?? this.weightDuration,
       movementId: movementId ?? this.movementId,
+      movement: movement ?? this.movement,
     );
   }
 
@@ -35,6 +39,7 @@ class ExcerciseModel {
       'reps': reps,
       'weightDuration': weightDuration,
       'movementId': movementId,
+      'movement': movement?.toMap(),
     };
   }
 
@@ -44,6 +49,7 @@ class ExcerciseModel {
       reps: map['reps'] != null ? map['reps'] as int : null,
       weightDuration: map['weightDuration'] != null ? map['weightDuration'] as int : null,
       movementId: map['movementId'] != null ? map['movementId'] as int : null,
+      movement: map['movement'] != null ? MovementModel.fromMap(map['movement'] as Map<String,dynamic>) : null,
     );
   }
 
@@ -53,7 +59,7 @@ class ExcerciseModel {
 
   @override
   String toString() {
-    return 'ExcerciseModel(set: $set, reps: $reps, weightDuration: $weightDuration, movementId: $movementId)';
+    return 'ExcerciseModel(set: $set, reps: $reps, weightDuration: $weightDuration, movementId: $movementId, movement: $movement)';
   }
 
   @override
@@ -64,7 +70,8 @@ class ExcerciseModel {
       other.set == set &&
       other.reps == reps &&
       other.weightDuration == weightDuration &&
-      other.movementId == movementId;
+      other.movementId == movementId &&
+      other.movement == movement;
   }
 
   @override
@@ -72,7 +79,8 @@ class ExcerciseModel {
     return set.hashCode ^
       reps.hashCode ^
       weightDuration.hashCode ^
-      movementId.hashCode;
+      movementId.hashCode ^
+      movement.hashCode;
   }
 }
 

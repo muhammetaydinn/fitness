@@ -1,7 +1,9 @@
 import 'package:fitness/data/convert_to_snake_case.dart';
 import 'package:fitness/model/MovementModel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../controller/all_controller.dart';
 import '../data/load_json.dart';
 
 class Ekran extends StatefulWidget {
@@ -12,17 +14,7 @@ class Ekran extends StatefulWidget {
 }
 
 class _EkranState extends State<Ekran> {
-  List<MovementModel> exercisesList = [];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    loadJsonData().then((value) {
-      setState(() {
-        exercisesList = value;
-      });
-    });
-  }
+  final _allController = Get.put(AllController());
 
   @override
   Widget build(BuildContext context) {
@@ -45,25 +37,28 @@ class _EkranState extends State<Ekran> {
               Column(
             children: [
               Expanded(
-                child: ListView.builder(
-                    itemCount: exercisesList.length,
+                  child: Obx(
+                () => ListView.builder(
+                    itemCount: _allController.movementList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                          title: Text(exercisesList[index].name),
+                          title: Text(_allController.movementList[index].name),
+
                           // subtitle: Text(exercisesList[index].level),
-                          leading: Text(exercisesList[index].id.toString()),
-                          subtitle: Text(
-                              convertToSnakeCase(exercisesList[index].name)),
+                          leading: Text(
+                              _allController.movementList[index].id.toString()),
+                          subtitle: Text(convertToSnakeCase(
+                              _allController.movementList[index].name)),
                           trailing:
                               //yuklenmediyse gri bir container
 
                               Container(
                                   color: Colors.grey,
                                   child: Image.network(getImagePaths(
-                                      convertToSnakeCase(
-                                          exercisesList[index].name))[0])));
+                                      convertToSnakeCase(_allController
+                                          .movementList[index].name))[0])));
                     }),
-              ),
+              )),
             ],
           ),
           //SHOW ALL TEXTS IN THE JSON FILE

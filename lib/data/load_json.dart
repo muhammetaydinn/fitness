@@ -9,7 +9,7 @@ Future<List<MovementModel>> loadJsonData() async {
   String jsonString = await rootBundle.loadString('assets/exercises.json');
   List<MovementModel> exercisesList = json
       .decode(jsonString)
-      .map<MovementModel>((e) => MovementModel.fromMap(e, i++))
+      .map<MovementModel>((e) => MovementModel.fromMap(e, i: i++))
       .toList();
   if (kDebugMode) {
     print(jsonString.runtimeType);
