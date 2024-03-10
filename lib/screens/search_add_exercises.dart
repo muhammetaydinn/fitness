@@ -12,6 +12,7 @@ import 'package:fitness/screens/ekran.dart';
 
 import '../controller/all_controller.dart';
 import '../data/convert_to_snake_case.dart';
+import '../model/ExerciseModel.dart';
 
 class SearchAddExercisesScreen extends StatelessWidget {
   SearchAddExercisesScreen({
@@ -90,7 +91,14 @@ class SearchAddExercisesScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Get.toNamed('/addExercise', arguments: i);
+                    print(
+                        'selected exercises: ${_allController.selectedExercises.length}');
+                    List<ExcerciseModel> temp =
+                        List.from(_allController.selectedExercises);
+                    _allController.selectedExercises.clear();
+
+                    Get.back(result: temp);
+                    //clear the selected exercises list
                   },
                   child: const Text('Save'),
                 ),
