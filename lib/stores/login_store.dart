@@ -1,8 +1,8 @@
 import 'package:mobx/mobx.dart';
 
+import '../service/other/dprint.dart';
 import '../service/login_service.dart';
 part 'login_store.g.dart';
-
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
@@ -23,15 +23,13 @@ abstract class _LoginStore with Store {
   }
 
   Future<void> login() async {
-    // TODO: Implement registration logic
-    print(
+    dprint(
       'First Name:Email: $email, Password: $password',
     );
     var response = await loginUserService(
       email,
       password,
     );
-    print(response);
-
+    dprint(response);
   }
 }

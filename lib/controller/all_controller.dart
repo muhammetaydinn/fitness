@@ -1,4 +1,3 @@
-
 import 'package:fitness/model/DayModel.dart';
 import 'package:fitness/model/MovementModel.dart';
 import 'package:fitness/model/ProgramModel.dart';
@@ -10,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../model/ExerciseModel.dart';
 import '../model/RegisterResponseModel.dart';
+import '../service/other/dprint.dart';
 import '../service/login_service.dart';
 
 class AllController extends GetxController {
@@ -71,7 +71,8 @@ class AllController extends GetxController {
   set setDayNameController(value) => dayNameController.value = value;
 
   final GetStorage box = GetStorage();
-  Rx<RegisterResponseModel> _registerResponseModel =
+
+  final Rx<RegisterResponseModel> _registerResponseModel =
       RegisterResponseModel(accessToken: null, refreshToken: null).obs;
   RegisterResponseModel get registerResponseModel {
     return _registerResponseModel.value;
@@ -87,15 +88,27 @@ class AllController extends GetxController {
 
   set registerResponseModel(value) => _registerResponseModel.value = value;
 
-  var _isValid = false.obs;
+  final _isValid = false.obs;
 
   RxList<MovementModel> movementList = <MovementModel>[].obs;
   void setMovementList(List<MovementModel> value) {
     movementList.assignAll(value);
   }
 
+  RxList<ProgramModel> programList = <ProgramModel>[].obs;
+  void setProgramList(List<ProgramModel> value) {
+    programList.assignAll(value);
+  }
+
+  get getProgramList => programList;
+
+  //ADD PROGRAM TO PROGRAM LIST
+  void addProgramToList(ProgramModel program) {
+    programList.add(program.copyWith());
+  }
+
   Future<void> register() async {
-    print(
+    dprint(
         "object: ${name.value}, ${lastname.value}, ${email.value}, ${password.value}");
 
     await registerUserService(
@@ -107,7 +120,7 @@ class AllController extends GetxController {
   }
 
   Future<void> login() async {
-    print("object: ${loginEmail.value}, ${loginPassword.value}");
+    dprint("object: ${loginEmail.value}, ${loginPassword.value}");
 
     var login = await loginUserService(
       loginEmail.value,

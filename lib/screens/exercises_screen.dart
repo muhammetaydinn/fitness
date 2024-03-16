@@ -20,7 +20,7 @@ class _EkranState extends State<Ekran> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('My asd Programs'),
+          title: const Text('All Exercises'),
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         body: Center(

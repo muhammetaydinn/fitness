@@ -1,6 +1,6 @@
-import 'package:fitness/screens/ekran.dart';
-import 'package:fitness/screens/ekran_2.dart';
-import 'package:fitness/screens/ekran_3.dart';
+import 'package:fitness/screens/exercises_screen.dart';
+import 'package:fitness/screens/home_screen.dart';
+import 'package:fitness/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,10 +18,10 @@ class _MainScreenState extends State<MainScreen> {
   final _allController = Get.put(AllController());
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Ekran2(),
-    Ekran(),
-    Ekran3()
+  static final List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    const Ekran(),
+    const Ekran3()
   ];
 
   void _onItemTapped(int index) {
@@ -32,7 +32,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     loadJsonData().then((value) {
       _allController.setMovementList(value);
     });

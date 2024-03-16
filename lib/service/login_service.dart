@@ -4,7 +4,8 @@ import 'dart:convert';
 import 'package:fitness/constants/api.dart';
 import 'package:fitness/model/LoginResponseModel.dart';
 import 'package:http/http.dart' as http;
-
+import 'other/dprint.dart';
+import 'other/dprint.dart';
 import 'storage/login_storage.dart';
 
 Future<String> loginUserService(
@@ -12,8 +13,8 @@ Future<String> loginUserService(
   String password,
 ) async {
   try {
-    print("api: ${Api.loginApi}");
-    print("object: $email, $password");
+    dprint("api: ${Api.loginApi}");
+    dprint("object: $email, $password");
     final response = await http.post(
       headers: {"Content-Type": "application/json"},
       Uri.parse(Api.loginApi),
@@ -25,10 +26,10 @@ Future<String> loginUserService(
 
     // Handle the response
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      print('User logined successfully');
+      dprint('User logined successfully');
       LoginResponseModel loginResponseModel =
           LoginResponseModel.fromJson(response.body);
-      print(
+      dprint(
           "access_token: ${loginResponseModel.access_token}, refresh_token: ${loginResponseModel.refresh_token}");
 
       storeTokens(
@@ -36,8 +37,8 @@ Future<String> loginUserService(
       //change the islogged in to true in getx
       return "success";
     } else {
-      print(response.body);
-      print(response.statusCode);
+      dprint(response.body);
+      dprint(response.statusCode);
       return "failed";
       //TODO: handle error
     }

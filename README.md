@@ -10,6 +10,7 @@
 - Her seyi stateless yapmaya çalış
 - resimler yüklenirken bir shimmer eklenmeli
 - PROJE BITEYAZINCA PRINTLERI SIL
+- Günleri ve egzersizleri birbiri ardında yer değiştirilebilir yap.
 
 
 

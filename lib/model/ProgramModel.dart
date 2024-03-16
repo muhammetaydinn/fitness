@@ -14,7 +14,6 @@ class ProgramModel {
     this.days,
     this.dayId,
   });
-  
 
   ProgramModel copyWith({
     String? name,
@@ -31,7 +30,7 @@ class ProgramModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'days': days?.map((x) => x?.toMap()).toList(),
+      'days': days?.map((x) => x.toMap()).toList(),
       'dayId': dayId,
     };
   }
@@ -39,14 +38,21 @@ class ProgramModel {
   factory ProgramModel.fromMap(Map<String, dynamic> map) {
     return ProgramModel(
       name: map['name'] != null ? map['name'] as String : null,
-      days: map['days'] != null ? List<Day>.from((map['days'] as List<int>).map<Day?>((x) => Day.fromMap(x as Map<String,dynamic>),),) : null,
+      days: map['days'] != null
+          ? List<Day>.from(
+              (map['days'] as List<dynamic>).map<Day?>(
+                (x) => Day.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
       dayId: map['dayId'] != null ? map['dayId'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ProgramModel.fromJson(String source) => ProgramModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ProgramModel.fromJson(String source) =>
+      ProgramModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'ProgramModel(name: $name, days: $days, dayId: $dayId)';
@@ -54,11 +60,10 @@ class ProgramModel {
   @override
   bool operator ==(covariant ProgramModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name == name &&
-      listEquals(other.days, days) &&
-      other.dayId == dayId;
+
+    return other.name == name &&
+        listEquals(other.days, days) &&
+        other.dayId == dayId;
   }
 
   @override

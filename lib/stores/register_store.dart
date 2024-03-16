@@ -56,7 +56,7 @@
 
 //   Future<void> register() async {
 //     // TODO: Implement registration logic
-//     print(
+//     dprint(
 //       'First Name: $firstName, Last Name: $lastName, Email: $email, Password: $password',
 //     );
 //     var response = await registerUserService(
@@ -65,10 +65,10 @@
 //       email,
 //       password,
 //     );
-//     print(response);
+//     dprint(response);
 
 //     registerModelResponse = RegisterResponseModel.fromJson(response);
-//     print(registerModelResponse.access_token);
+//     dprint(registerModelResponse.access_token);
 //     // here we will call the api to register the user
 //   }
 // }

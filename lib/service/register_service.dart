@@ -9,7 +9,8 @@ import 'package:http/http.dart' as http;
 import '../constants/enums/screens.dart';
 import '../controller/all_controller.dart';
 import '../model/RegisterResponseModel.dart';
-
+import 'other/dprint.dart';
+import 'other/dprint.dart';
 Future<void> registerUserService(
   String firstName,
   String lastName,
@@ -19,8 +20,8 @@ Future<void> registerUserService(
   // get getx controller
   final AllController allController = Get.put(AllController());
   try {
-    print("api: ${Api.registerApi}");
-    print("object: $firstName, $lastName, $email, $password");
+    dprint("api: ${Api.registerApi}");
+    dprint("object: $firstName, $lastName, $email, $password");
     // Make API call to register the user
     final response = await http.post(
       headers: {"Content-Type": "application/json"},
@@ -36,14 +37,13 @@ Future<void> registerUserService(
 
     // Handle the response
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      print('User registered successfully');
-      print(response.body);
+      dprint('User registered successfully');
+      dprint(response.body);
       //set allController.registerResponseModel
       allController.registerResponseModel =
           RegisterResponseModel.fromJson(json.decode(response.body));
-      print(allController.registerResponseModel.refreshToken);
+      dprint(allController.registerResponseModel.refreshToken.toString());
 
-      //TODO: NAVIGATE TO LOGIN SCREEN AND SHOW SNACKBAR
       Get.back();
       Get.snackbar(
         "User Registered",
@@ -67,7 +67,7 @@ Future<void> registerUserService(
       }
     }
   } catch (e) {
-    print("catch: $e");
+    dprint("catch: $e");
     Get.snackbar(
       "Error",
       "Error registering user: $e",

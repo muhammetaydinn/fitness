@@ -12,7 +12,7 @@ class _Ekran3State extends State<Ekran3> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My asd Programs'),
+        title: const Text('Profile'),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: const Center(

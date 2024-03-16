@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 
+import '../service/other/dprint.dart';
+
 // Load json data from assets and converts to exercise model and returns a list of exercise model
 Future<List<MovementModel>> loadJsonData() async {
   var i = 1;
@@ -12,10 +14,10 @@ Future<List<MovementModel>> loadJsonData() async {
       .map<MovementModel>((e) => MovementModel.fromMap(e, i: i++))
       .toList();
   if (kDebugMode) {
-    print(jsonString.runtimeType);
-    print(exercisesList.length);
+    dprint(jsonString.runtimeType);
+    dprint(exercisesList.length);
   }
 
-  // print(exercisesModel);
+  // dprint(exercisesModel);
   return exercisesList;
 }

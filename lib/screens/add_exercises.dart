@@ -8,7 +8,9 @@ import '../data/convert_to_snake_case.dart';
 import '../model/DayModel.dart';
 import '../model/ExerciseModel.dart';
 import '../model/ProgramModel.dart';
-import 'ekran.dart';
+import '../service/other/dprint.dart';
+import '../service/storage/programs.dart';
+import 'exercises_screen.dart';
 
 class AddExercisesScreen extends StatefulWidget {
   const AddExercisesScreen({super.key});
@@ -34,6 +36,7 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              //TODO: ADD TOGGLE THAT COLUMN WHEN CLICKED THE CREATE PROGRAM BUTTON
               Column(
                 children: [
                   tf1(),
@@ -42,6 +45,7 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
                 ],
               ),
               name(),
+              //TODO: ADD CHANGE NAME HERE
               const SizedBox(
                 height: 10,
               ),
@@ -52,15 +56,54 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
             ],
           ),
         ),
-        floatingActionButton: Obx(
-          () => _allController.programModel.value.days?.isNotEmpty ?? false
-              ? FloatingActionButton.extended(
-                  onPressed: () {
-                    addDayToProgram();
-                  },
-                  label: const Text('Add Day'),
-                )
-              : Container(),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Obx(
+              () => _allController.programModel.value.days?.isNotEmpty ?? false
+                  ? FloatingActionButton.extended(
+                      heroTag: "btn1",
+                      onPressed: () {
+                        addDayToProgram();
+                      },
+                      icon: const Icon(Icons.add_outlined),
+                      label: const Text('Add Day'),
+                    )
+                  : Container(),
+              // save program
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Obx(
+              () => _allController.programModel.value.days?.isNotEmpty ?? false
+                  ? FloatingActionButton.extended(
+                      heroTag: "btn2",
+                      onPressed: () {
+                        // save program in local and in model
+                        // _allController.saveProgram();
+                        // Get.toNamed('/ekran');
+                        // Burada programModel listemize program model ekleniyor
+
+                        _allController.addProgramToList(
+                            _allController.programModel.value);
+                        //clean model
+                        _allController.programModel.value = ProgramModel();
+                        // ProgramList storage da da güncelliyor.
+
+                        ProgramService().updateStoredProgramList();
+
+                        //also save to local storage
+
+                        Get.back();
+                      },
+                      icon: const Icon(Icons.save_outlined),
+                      label: const Text('Save Program'),
+                    )
+                  : Container(),
+            )
+          ],
         ));
   }
 
@@ -108,7 +151,7 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
           var result =
               await Get.toNamed('/searchAddExercises', arguments: index);
           if (result != null) {
-            print('result: $result');
+            dprint('result: $result');
             List<ExcerciseModel> exercises = result as List<ExcerciseModel>;
             _allController.programModel.update((val) {
               for (var i = 0; i < exercises.length; i++) {
@@ -203,13 +246,13 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          print(
+                          dprint(
                               "day name: ${_allController.programModel.value.days?[index].name} changed to ${_allController.dayNameController.value.text}");
                           _allController.programModel.update((val) {
                             val?.days?[index].name =
                                 _allController.dayNameController.value.text;
                           });
-                          print(
+                          dprint(
                               "day name: ${_allController.programModel.value.days?[index].name} ");
 
                           _allController.dayNameController.value.text = '';

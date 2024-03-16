@@ -13,8 +13,6 @@ class Day {
     this.exercises,
   });
 
-
-
   Day copyWith({
     String? name,
     List<ExcerciseModel>? exercises,
@@ -35,13 +33,20 @@ class Day {
   factory Day.fromMap(Map<String, dynamic> map) {
     return Day(
       name: map['name'] != null ? map['name'] as String : null,
-      exercises: map['exercises'] != null ? List<ExcerciseModel>.from((map['exercises'] as List<int>).map<ExcerciseModel?>((x) => ExcerciseModel.fromMap(x as Map<String,dynamic>),),) : null,
+      exercises: map['exercises'] != null
+          ? List<ExcerciseModel>.from(
+              (map['exercises'] as List<dynamic>).map<ExcerciseModel?>(
+                (x) => ExcerciseModel.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Day.fromJson(String source) => Day.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Day.fromJson(String source) =>
+      Day.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Day(name: $name, exercises: $exercises)';
@@ -49,10 +54,8 @@ class Day {
   @override
   bool operator ==(covariant Day other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name == name &&
-      listEquals(other.exercises, exercises);
+
+    return other.name == name && listEquals(other.exercises, exercises);
   }
 
   @override

@@ -3,10 +3,12 @@
 // else navigate to main screen
 // use getx and get_storage
 import 'package:fitness/screens/main_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
+import '../service/other/dprint.dart';
 import 'login_screen.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -24,6 +26,9 @@ class AuthScreen extends StatelessWidget {
       if (hasExpired) {
         // refresh token here and get new access token
         //OR navigate to login screen
+  
+          dprint('Access token has expired');
+
         return LoginScreen();
       } else {
         //navigate to main screen

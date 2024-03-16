@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:fitness/model/MovementModel.dart';
-import 'package:fitness/screens/ekran.dart';
+import 'package:fitness/screens/exercises_screen.dart';
 
 import '../controller/all_controller.dart';
 import '../data/convert_to_snake_case.dart';
 import '../model/ExerciseModel.dart';
+import '../service/other/dprint.dart';
 
 class SearchAddExercisesScreen extends StatelessWidget {
   SearchAddExercisesScreen({
@@ -23,7 +24,7 @@ class SearchAddExercisesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('index: $i');
+    dprint('index: $i');
     return Scaffold(
       appBar: AppBar(
         title: Obx(
@@ -91,7 +92,7 @@ class SearchAddExercisesScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    print(
+                    dprint(
                         'selected exercises: ${_allController.selectedExercises.length}');
                     List<ExcerciseModel> temp =
                         List.from(_allController.selectedExercises);
