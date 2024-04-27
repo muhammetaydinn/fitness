@@ -35,7 +35,7 @@ Future<List<ProgramModel>> syncPrograms() async {
                                 movementId: e.movementId,
                                 reps: e.reps,
                                 weightDuration: e.weightDuration,
-                                setCount: e.set,
+                                setCount: e.setCount,
                               ))
                           .toList()))
                   .toList()))

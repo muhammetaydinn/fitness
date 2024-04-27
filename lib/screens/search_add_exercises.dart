@@ -5,11 +5,12 @@
 // Add your code here...
 
 import 'package:fitness/service/filter_list.dart';
+import 'package:fitness/service/get_movement.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:fitness/model/MovementModel.dart';
-import 'package:fitness/model/exercises_screen.dart';
+import 'package:fitness/screens/exercises_screen.dart';
 
 import '../controller/all_controller.dart';
 import '../data/convert_to_snake_case.dart';
@@ -106,8 +107,9 @@ class SearchAddExercisesScreen extends StatelessWidget {
                               width: 50,
                               height: 50,
                               color: Colors.blue,
-                              child: Text(_allController
-                                  .selectedExercises[index].movement!.name),
+                              child: Text(getMovement(_allController
+                                      .selectedExercises[index].movementId!)
+                                  .name),
                             ),
                           );
                         },

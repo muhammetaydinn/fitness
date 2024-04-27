@@ -1,4 +1,5 @@
 import 'package:fitness/controller/all_controller.dart';
+import 'package:fitness/service/get_movement.dart';
 import 'package:fitness/service/other/dprint.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,8 +32,11 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
       return Card(
         key: ValueKey(index),
         child: Text(
-            program.days?[dayIndex].exercises?[exerciseIndex].movement?.name ??
-                ""),
+          getMovement(program
+                      .days?[dayIndex].exercises?[exerciseIndex].movementId)
+                  .name ??
+              "",
+        ),
       );
     }
 

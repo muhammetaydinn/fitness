@@ -10,64 +10,58 @@ class ProgramModel {
   int? id;
   String? name;
   List<Day>? days;
-  String? dayId; //generated id for each day
   ProgramModel({
+    this.id,
     this.name,
     this.days,
-    this.dayId,
   });
+ 
 
   ProgramModel copyWith({
+    int? id,
     String? name,
     List<Day>? days,
-    String? dayId,
   }) {
     return ProgramModel(
+      id: id ?? this.id,
       name: name ?? this.name,
       days: days ?? this.days,
-      dayId: dayId ?? this.dayId,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'name': name,
-      'days': days?.map((x) => x.toMap()).toList(),
-      'dayId': dayId,
+      'days': days?.map((x) => x?.toMap()).toList(),
     };
   }
 
   factory ProgramModel.fromMap(Map<String, dynamic> map) {
     return ProgramModel(
+      id: map['id'] != null ? map['id'] as int : null,
       name: map['name'] != null ? map['name'] as String : null,
-      days: map['days'] != null
-          ? List<Day>.from(
-              (map['days'] as List<dynamic>).map<Day?>(
-                (x) => Day.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
-      dayId: map['dayId'] != null ? map['dayId'] as String : null,
+      days: map['days'] != null ? List<Day>.from((map['days'] as List<dynamic>).map<Day?>((x) => Day.fromMap(x as Map<String,dynamic>),),) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ProgramModel.fromJson(String source) =>
-      ProgramModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ProgramModel.fromJson(String source) => ProgramModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'ProgramModel(name: $name, days: $days, dayId: $dayId)';
+  String toString() => 'ProgramModel(id: $id, name: $name, days: $days)';
 
   @override
   bool operator ==(covariant ProgramModel other) {
     if (identical(this, other)) return true;
-
-    return other.name == name &&
-        listEquals(other.days, days) &&
-        other.dayId == dayId;
+  
+    return 
+      other.id == id &&
+      other.name == name &&
+      listEquals(other.days, days);
   }
 
   @override
-  int get hashCode => name.hashCode ^ days.hashCode ^ dayId.hashCode;
+  int get hashCode => id.hashCode ^ name.hashCode ^ days.hashCode;
 }

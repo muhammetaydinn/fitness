@@ -10,7 +10,7 @@ import '../model/ExerciseModel.dart';
 import '../model/ProgramModel.dart';
 import '../service/other/dprint.dart';
 import '../service/storage/programs.dart';
-import '../model/exercises_screen.dart';
+import 'exercises_screen.dart';
 
 class AddExercisesScreen extends StatefulWidget {
   const AddExercisesScreen({super.key});
@@ -184,9 +184,20 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
                 height: 25,
                 color: Colors.grey,
                 child: Image.network(getImagePaths(convertToSnakeCase(
-                    _allController.programModel.value.days?[index]
-                            .exercises![iN].movement?.name ??
-                        ''))[0]),
+                    //TODO:
+                    //get id from controller and get name from movementlist
+                    _allController.movementList
+                        .where((p0) =>
+                            p0.id ==
+                            _allController.programModel.value.days?[index]
+                                .exercises?[iN].movementId)
+                        .first
+                        .name))[0]),
+                // _allController.programModel.value.days?[index]
+                //         .exercises![iN].movement?.name ??
+                //     ''
+
+                // ))[0]),
               ),
             ));
   }
@@ -321,7 +332,7 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
             ? () {
                 var uuid = const Uuid();
                 createProgram(_allController.programName.value,
-                    int.parse(_allController.dayNumber.value), uuid.v4());
+                    int.parse(_allController.dayNumber.value));
 
                 _allController.programName.value = '';
                 programNameController.clear();
@@ -365,20 +376,16 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
   void createProgram(
     String name,
     int numberDays,
-    String dayId,
   ) {
     List<Day> days = [];
     for (var i = 0; i < numberDays; i++) {
       days.add(Day(name: 'Day ${i + 1}', exercises: []));
     }
-    _allController.programModel.value.days = days;
-    _allController.programModel.value.name = name;
 
-    _allController.setProgramModel = ProgramModel(
-      name: _allController.programModel.value.name,
-      days: _allController.programModel.value.days,
-      dayId: dayId,
-    );
+    _allController.programModel.update((val) {
+      val?.days = days;
+      val?.name = name;
+    });
   }
 
   void addDayToProgram() {

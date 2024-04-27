@@ -79,7 +79,7 @@ class AllController extends GetxController {
   }
 
   Rx<ProgramModel> programModel =
-      ProgramModel(name: "", days: <Day>[], dayId: "").obs;
+      ProgramModel(name: "", days: <Day>[]).obs;
   ProgramModel get getProgramModel => programModel.value;
   set setProgramModel(value) => programModel.value = value;
   List<Day> days = <Day>[].obs;
@@ -149,11 +149,10 @@ class AllController extends GetxController {
     //  add selected exercises list to our allcontroller days i exercises list
     selectedExercises.add(
       ExcerciseModel(
-        movement: movementModel,
         movementId: movementModel.id,
         reps: 0,
         weightDuration: 0,
-        set: 0,
+        
       ),
     );
   }
@@ -169,7 +168,7 @@ class AllController extends GetxController {
     programName.value = "";
     dayNumber.value = "";
     selectedExercises.clear();
-    programModel.value = ProgramModel(name: "", days: <Day>[], dayId: "");
+    programModel.value = ProgramModel(name: "", days: <Day>[]);
     days = <Day>[];
     programList =  <ProgramModel>[].obs;
   }
