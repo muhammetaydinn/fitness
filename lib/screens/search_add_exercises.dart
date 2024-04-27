@@ -4,11 +4,12 @@
 
 // Add your code here...
 
+import 'package:fitness/service/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:fitness/model/MovementModel.dart';
-import 'package:fitness/screens/exercises_screen.dart';
+import 'package:fitness/model/exercises_screen.dart';
 
 import '../controller/all_controller.dart';
 import '../data/convert_to_snake_case.dart';
@@ -21,6 +22,7 @@ class SearchAddExercisesScreen extends StatelessWidget {
   }) : super(key: key);
   final _allController = Get.put(AllController());
   var i = Get.arguments;
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,32 +37,55 @@ class SearchAddExercisesScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  hintText: 'Search: Dumbbell Bench Press',
+                  border: OutlineInputBorder(),
+                ),
+                controller: searchController,
+                cursorColor: Colors.black,
+                cursorWidth: 5,
+                style: const TextStyle(
+                  color: Colors.black,
+                  decorationColor: Colors.black,
+                ),
+                onChanged: (value) {
+                  filterList(value);
+                },
+              ),
+            ),
+            // Search bar
+
             Expanded(
-              child: ListView.builder(
-                itemCount: _allController.movementList.length,
+                child: Obx(
+              () => ListView.builder(
+                itemCount: _allController.filteredMovementList.length,
                 itemBuilder: (context, index) {
                   //selectable list tile for each exercise
                   // if che exercise is selected, the background color will be blue
                   // and add to the selected exercises list
                   return ListTile(
-                    title: Text(_allController.movementList[index].name),
-                    leading:
-                        Text(_allController.movementList[index].id.toString()),
+                    title:
+                        Text(_allController.filteredMovementList[index].name),
+                    leading: Text(_allController.filteredMovementList[index].id
+                        .toString()),
                     subtitle: Text(convertToSnakeCase(
-                        _allController.movementList[index].name)),
+                        _allController.filteredMovementList[index].name)),
                     trailing: Container(
                       color: Colors.grey,
                       child: Image.network(getImagePaths(convertToSnakeCase(
-                          _allController.movementList[index].name))[0]),
+                          _allController.filteredMovementList[index].name))[0]),
                     ),
                     onTap: () {
                       _allController.addSelectedExercise(
-                          _allController.movementList[index]);
+                          _allController.filteredMovementList[index]);
                     },
                   );
                 },
               ),
-            ),
+            )),
             // Selected exercises list
             //Fix that container
             Row(
@@ -108,6 +133,91 @@ class SearchAddExercisesScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  AlertDialog newMethod(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Filter'),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          const Text(
+            'Filtreleme seçenekleri:',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          const Text('Ekipman'),
+          CheckboxListTile(
+            title: const Text('Barbell'),
+            value: false,
+            onChanged: (value) {
+              // Barbell seçildiğinde yapılacak işlemler
+            },
+          ),
+          CheckboxListTile(
+            title: const Text('Dumbbell'),
+            value: false,
+            onChanged: (value) {
+              // Dumbbell seçildiğinde yapılacak işlemler
+            },
+          ),
+          const Text('Kas Grubu'),
+          CheckboxListTile(
+            title: const Text('Göğüs'),
+            value: false,
+            onChanged: (value) {
+              // Göğüs seçildiğinde yapılacak işlemler
+            },
+          ),
+          CheckboxListTile(
+            title: const Text('Sırt'),
+            value: false,
+            onChanged: (value) {
+              // Sırt seçildiğinde yapılacak işlemler
+            },
+          ),
+          const Text('Seviye'),
+          RadioListTile(
+            title: const Text('Başlangıç'),
+            value: 'beginner',
+            groupValue: null,
+            onChanged: (value) {
+              // Başlangıç seviyesi seçildiğinde yapılacak işlemler
+            },
+          ),
+          RadioListTile(
+            title: const Text('Orta'),
+            value: 'intermediate',
+            groupValue: null,
+            onChanged: (value) {
+              // Orta seviye seçildiğinde yapılacak işlemler
+            },
+          ),
+          RadioListTile(
+            title: const Text('İleri'),
+            value: 'advanced',
+            groupValue: null,
+            onChanged: (value) {
+              // İleri seviye seçildiğinde yapılacak işlemler
+            },
+          ),
+        ]),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Kapat'),
+        ),
+        TextButton(
+          onPressed: () {
+            // Filtreleme işlemleri
+          },
+          child: const Text('Filtrele'),
+        ),
+      ],
     );
   }
 }

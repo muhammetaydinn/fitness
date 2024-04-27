@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'DayModel.dart';
 
 class ProgramModel {
+  //TODO: İF CRRASHES DELETE THE METHODS AND RECREATE THEM
+  int? id;
   String? name;
   List<Day>? days;
   String? dayId; //generated id for each day

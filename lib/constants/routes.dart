@@ -1,3 +1,4 @@
+import 'package:fitness/screens/program_detail_screen.dart';
 import 'package:get/get.dart';
 
 import '../screens/add_exercises.dart';
@@ -25,4 +26,5 @@ List<GetPage> routes = [
   GetPage(name: '/addExercise', page: () => const AddExercisesScreen()),
   GetPage(name: '/searchAddExercises', page: () => SearchAddExercisesScreen()),
   GetPage(name: '/home', page: () => HomeScreen()),
+  GetPage(name: '/programDetail', page: () => const ProgramDetailScreen())
 ];

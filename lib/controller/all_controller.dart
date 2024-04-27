@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../model/ExerciseModel.dart';
-import '../model/RegisterResponseModel.dart';
+import '../model/auth/RegisterResponseModel.dart';
 import '../service/other/dprint.dart';
 import '../service/login_service.dart';
 
@@ -95,6 +95,12 @@ class AllController extends GetxController {
     movementList.assignAll(value);
   }
 
+  RxList<MovementModel> filteredMovementList = <MovementModel>[].obs;
+  void setFilteredMovementList(List<MovementModel> value) {
+    filteredMovementList.assignAll(value);
+  }
+  
+
   RxList<ProgramModel> programList = <ProgramModel>[].obs;
   void setProgramList(List<ProgramModel> value) {
     programList.assignAll(value);
@@ -150,5 +156,21 @@ class AllController extends GetxController {
         set: 0,
       ),
     );
+  }
+
+  void clear() {
+    name.value = "";
+    lastname.value = "";
+    email.value = "";
+    password.value = "";
+    loginEmail.value = "";
+    loginPassword.value = "";
+    isLoggedin.value = false;
+    programName.value = "";
+    dayNumber.value = "";
+    selectedExercises.clear();
+    programModel.value = ProgramModel(name: "", days: <Day>[], dayId: "");
+    days = <Day>[];
+    programList =  <ProgramModel>[].obs;
   }
 }

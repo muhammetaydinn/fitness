@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:fitness/constants/api.dart';
-import 'package:fitness/model/LoginResponseModel.dart';
+import 'package:fitness/model/auth/LoginResponseModel.dart';
 import 'package:http/http.dart' as http;
 import 'other/dprint.dart';
 import 'other/dprint.dart';

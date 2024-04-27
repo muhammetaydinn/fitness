@@ -7,4 +7,7 @@ class Api {
   static const loginApi = '$v1Api/auth/authenticate';
   static const refreshTokenApi = '$v1Api/auth/refresh-token';
   static const demoControllerApi = '$v1Api/demo-controller';
+  //{{URL}}/api/v1/program/sync
+  static const syncProgramsApi = '$v1Api/program/sync';
+
 }

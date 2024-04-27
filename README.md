@@ -11,7 +11,9 @@
 - resimler yüklenirken bir shimmer eklenmeli
 - PROJE BITEYAZINCA PRINTLERI SIL
 - Günleri ve egzersizleri birbiri ardında yer değiştirilebilir yap.
-
+- giris cikis islemlerinde depolamalarını temizlemeyi unutma.
+- görselleri ya default localde tutucam ya da internetten çekeceğim. ikinci durumda da iki ihtimal var ya bir ara tüm verileri indir butonu ile toplu indirme sağlanır.
+- profil ekranında kullanıcının bilgilerini göster
 
 
 

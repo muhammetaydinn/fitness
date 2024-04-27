@@ -3,14 +3,15 @@ import 'package:get/get.dart';
 
 import '../controller/all_controller.dart';
 import '../service/other/dprint.dart';
+import '../service/sync.dart';
 
 class HomeScreen extends StatelessWidget {
-   HomeScreen({super.key});
+  HomeScreen({super.key});
   final _allController = Get.put(AllController());
   @override
   Widget build(BuildContext context) {
     //todo get init for local json data
-  
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Fitness Programs'),
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.sync),
-            onPressed: () {
+            onPressed: () async {
               //TODO: sync data
               // allController.getPrograms();
               //then show snackbar
@@ -32,6 +33,8 @@ class HomeScreen extends StatelessWidget {
                 colorText: Colors.black,
               );
               //then show status of the sync snackbar
+              await syncPrograms();
+
               Get.snackbar(
                 'Synced',
                 'Your programs are synced',
@@ -42,7 +45,6 @@ class HomeScreen extends StatelessWidget {
               );
 
               //send data to the server
-              dprint(_allController.programList);
             },
           )
         ],
@@ -54,8 +56,26 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
-                      title: Text(_allController.programList[index].name ?? ""),
-                      onTap: () {},
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _allController.programList[index].name ?? "",
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Text(
+                            'Days: ${_allController.programList[index].days?.length}',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                          Text(
+                              style: Theme.of(context).textTheme.titleSmall,
+                              'Exercises: ${_allController.programList[index].days?.fold(0, (previousValue, element) => previousValue + element.exercises!.length)}')
+                        ],
+                      ),
+                      onTap: () {
+                        //go to the program detail page
+                        Get.toNamed('/programDetail', arguments: index);
+                      },
                     ),
                   );
                 },

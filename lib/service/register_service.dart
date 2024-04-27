@@ -3,14 +3,15 @@ import 'dart:convert';
 
 import 'package:fitness/constants/api.dart';
 import 'package:fitness/model/ErrorResponseModel.dart';
+import 'package:fitness/model/auth/RegisterResponseModel.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants/enums/screens.dart';
 import '../controller/all_controller.dart';
-import '../model/RegisterResponseModel.dart';
 import 'other/dprint.dart';
 import 'other/dprint.dart';
+
 Future<void> registerUserService(
   String firstName,
   String lastName,

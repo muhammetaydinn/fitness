@@ -10,7 +10,7 @@ import '../model/ExerciseModel.dart';
 import '../model/ProgramModel.dart';
 import '../service/other/dprint.dart';
 import '../service/storage/programs.dart';
-import 'exercises_screen.dart';
+import '../model/exercises_screen.dart';
 
 class AddExercisesScreen extends StatefulWidget {
   const AddExercisesScreen({super.key});
