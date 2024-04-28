@@ -130,6 +130,13 @@ class SearchAddExercisesScreen extends StatelessWidget {
                   },
                   child: const Text('Save'),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    _allController.dayNameController.value.text = '';
+                    _allController.selectedExercises.clear();
+                  },
+                  child: const Text('Clear'),
+                ),
               ],
             )
           ],

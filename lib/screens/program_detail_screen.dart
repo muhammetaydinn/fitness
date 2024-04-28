@@ -1,11 +1,16 @@
-import 'package:fitness/controller/all_controller.dart';
-import 'package:fitness/service/get_movement.dart';
-import 'package:fitness/service/other/dprint.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:fitness/service/storage/programs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
+import 'package:fitness/controller/all_controller.dart';
+import 'package:fitness/service/get_movement.dart';
+import 'package:fitness/service/other/dprint.dart';
+
 import '../data/convert_to_snake_case.dart';
+import '../model/ExerciseModel.dart';
 import 'exercises_screen.dart';
 
 class ProgramDetailScreen extends StatefulWidget {
@@ -16,8 +21,6 @@ class ProgramDetailScreen extends StatefulWidget {
 }
 
 class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
-  final data = List.generate(50, (index) => index);
-
   final _allController = Get.put(AllController());
 
   //get arguments
@@ -34,25 +37,191 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
     Widget buildItem(int dayIndex, int exerciseIndex) {
       return Card(
         key: ValueKey(index),
-        child: Column(
+        child: Stack(
           children: [
-            Text(
-              getMovement(program
-                          .days?[dayIndex].exercises?[exerciseIndex].movementId)
-                      .name ??
-                  "",
+            Column(
+              children: [
+                Image.network(getImagePaths(convertToSnakeCase(
+
+                    //TODO:
+                    //get id from controller and get name from movementlist
+                    _allController.movementList
+                        .where((p0) =>
+                            p0.id ==
+                            program.days?[dayIndex].exercises?[exerciseIndex]
+                                .movementId)
+                        .first
+                        .name))[0]),
+                Text(
+                  getMovement(program.days?[dayIndex].exercises?[exerciseIndex]
+                              .movementId)
+                          .name ??
+                      "",
+                ),
+                //set x rep x weight
+                Text(
+                    "${program.days?[dayIndex].exercises?[exerciseIndex].setCount} x ${program.days?[dayIndex].exercises?[exerciseIndex].reps} : ${program.days?[dayIndex].exercises?[exerciseIndex].weightDuration} "),
+              ],
             ),
-            Image.network(getImagePaths(convertToSnakeCase(
-                //TODO:
-                //get id from controller and get name from movementlist
-                _allController.movementList
-                    .where((p0) =>
-                        p0.id ==
-                        program.days?[dayIndex].exercises?[exerciseIndex]
-                            .movementId)
-                    .first
-                    .name))[0]),
-            const Text("n x n")
+            editMode
+                ? Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: IconButton(
+                            iconSize: 15,
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Theme.of(context).colorScheme.secondary,
+                              ),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            color: Colors.white,
+                            icon: const Icon(Icons.edit_outlined),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Edit Excercise'),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          NumericTF(
+                                            controller: _allController
+                                                .setCountController.value,
+                                            labelText: "SetCount",
+                                          ),
+                                          NumericTF(
+                                            controller: _allController
+                                                .repCountController.value,
+                                            labelText: "Reps",
+                                          ),
+                                          NumericTF(
+                                            controller: _allController
+                                                .weightDurationController.value,
+                                            labelText: "Weight/Time",
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              program
+                                                      .days?[dayIndex]
+                                                      .exercises?[exerciseIndex]
+                                                      .setCount =
+                                                  int.parse(_allController
+                                                      .setCountController
+                                                      .value
+                                                      .text);
+                                              program
+                                                      .days?[dayIndex]
+                                                      .exercises?[exerciseIndex]
+                                                      .reps =
+                                                  int.parse(_allController
+                                                      .repCountController
+                                                      .value
+                                                      .text);
+                                              program
+                                                      .days?[dayIndex]
+                                                      .exercises?[exerciseIndex]
+                                                      .weightDuration =
+                                                  int.parse(_allController
+                                                      .weightDurationController
+                                                      .value
+                                                      .text);
+                                            });
+
+                                            _allController.setCountController
+                                                .value.text = '';
+                                            _allController.repCountController
+                                                .value.text = '';
+                                            _allController
+                                                .weightDurationController
+                                                .value
+                                                .text = '';
+
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Save'),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: IconButton(
+                            style: ButtonStyle(
+                              iconSize: MaterialStateProperty.all(15),
+                              backgroundColor: MaterialStateProperty.all(
+                                Theme.of(context).colorScheme.secondary,
+                              ),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            color: Colors.white,
+                            icon: const Icon(Icons.delete_outline),
+                            onPressed: () {
+                              // _deleteExercise(index);
+                              //show dialog
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Delete Exercise'),
+                                    content: const Text(
+                                        'Are you sure you want to delete this exercise?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            program.days?[dayIndex].exercises
+                                                ?.removeAt(exerciseIndex);
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Delete'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
           ],
         ),
       );
@@ -76,6 +245,19 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
               });
             },
           ),
+          //save button
+          editMode
+              ? IconButton.filled(
+                  icon: const Icon(Icons.save),
+                  onPressed: () {
+                    //save the program
+                    _allController.programList[index] = program;
+                    //update the local storage
+                    ProgramService().updateStoredProgramList();
+                    Get.back();
+                  },
+                )
+              : Container(),
         ],
       ),
       body: ListView.builder(
@@ -128,12 +310,18 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           title: const Text('Edit Day'),
-                                          content: TextField(
-                                            controller: _allController
-                                                .dayNameController.value,
-                                            decoration: const InputDecoration(
-                                              labelText: 'Day Name',
-                                            ),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              TextField(
+                                                controller: _allController
+                                                    .dayNameController.value,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText: 'Day Name',
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           actions: [
                                             TextButton(
@@ -223,10 +411,10 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                     // if edit mode is enabled, then update the order of the items
                     if (editMode) {
                       setState(() {
-                        setState(() {
-                          final element = data.removeAt(oldIndex);
-                          data.insert(newIndex, element);
-                        });
+                        final element =
+                            program.days?[ind].exercises?.removeAt(oldIndex);
+                        program.days?[ind].exercises
+                            ?.insert(newIndex, element!);
                       });
                     } else {
                       //if edit mode is not enabled, then do nothing show a snackbar
@@ -255,11 +443,71 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                     childAspectRatio: 0.75,
                   ),
                 ),
+                editMode
+                    ? IconButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.primary,
+                          ),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        color: Theme.of(context).colorScheme.secondary,
+                        icon: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                        onPressed: () async {
+                          // NAVİGATE TO ADD EXERCISE SCREEN
+
+                          var result = await Get.toNamed(
+                            '/searchAddExercises',
+                          );
+                          dprint('result: $result');
+                          if (result != null) {
+                            dprint('result: $result');
+                            List<ExcerciseModel> exercises = result;
+                            setState(() {
+                              for (var i = 0; i < exercises.length; i++) {
+                                program.days?[ind].exercises?.add(exercises[i]);
+                              }
+                            });
+                          }
+                        },
+                      )
+                    : Container()
               ],
             ),
           );
         },
         itemCount: program.days?.length ?? 0,
+      ),
+    );
+  }
+}
+
+class NumericTF extends StatelessWidget {
+  TextEditingController controller;
+  String labelText;
+  NumericTF({
+    Key? key,
+    required this.controller,
+    required this.labelText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly
+      ],
+      keyboardType: TextInputType.number,
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
       ),
     );
   }

@@ -70,6 +70,20 @@ class AllController extends GetxController {
   TextEditingController get getDayNameController => dayNameController.value;
   set setDayNameController(value) => dayNameController.value = value;
 
+  final setCountController = TextEditingController().obs;
+  TextEditingController get getSetCountController => setCountController.value;
+  set setSetCountController(value) => setCountController.value = value;
+
+  final repCountController = TextEditingController().obs;
+  TextEditingController get getRepCountController => repCountController.value;
+  set setRepCountController(value) => repCountController.value = value;
+
+  final weightDurationController = TextEditingController().obs;
+  TextEditingController get getWeightDurationController =>
+      weightDurationController.value;
+  set setWeightDurationController(value) =>
+      weightDurationController.value = value;
+
   final GetStorage box = GetStorage();
 
   final Rx<RegisterResponseModel> _registerResponseModel =
@@ -140,7 +154,7 @@ class AllController extends GetxController {
         "User logged in successfully",
         snackPosition: SnackPosition.BOTTOM,
       );
-    }else {
+    } else {
       Get.snackbar(
         "Error",
         "Error logging in user",
