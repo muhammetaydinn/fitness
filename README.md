@@ -14,6 +14,7 @@
 - giris cikis islemlerinde depolamalarını temizlemeyi unutma.
 - görselleri ya default localde tutucam ya da internetten çekeceğim. ikinci durumda da iki ihtimal var ya bir ara tüm verileri indir butonu ile toplu indirme sağlanır.
 - profil ekranında kullanıcının bilgilerini göster
+- HİÇ EGZERSİZİ OLMAYAN PROGRAMI SYNC ETMEZ
 
 
 

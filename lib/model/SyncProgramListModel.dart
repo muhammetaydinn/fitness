@@ -4,17 +4,19 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'SyncProgramModel.dart';
+import 'package:fitness/model/ProgramModel.dart';
+
 
 class SyncProgramListModel {
-  List<SyncProgramModel> programs;
-
+  List<ProgramModel> programs;
   SyncProgramListModel({
     required this.programs,
   });
 
+ 
+
   SyncProgramListModel copyWith({
-    List<SyncProgramModel>? programs,
+    List<ProgramModel>? programs,
   }) {
     return SyncProgramListModel(
       programs: programs ?? this.programs,
@@ -29,18 +31,13 @@ class SyncProgramListModel {
 
   factory SyncProgramListModel.fromMap(Map<String, dynamic> map) {
     return SyncProgramListModel(
-      programs: List<SyncProgramModel>.from(
-        (map['programs'] as List<dynamic>).map<SyncProgramModel>(
-          (x) => SyncProgramModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      programs: List<ProgramModel>.from((map['programs'] as List<dynamic>).map<ProgramModel>((x) => ProgramModel.fromMap(x as Map<String,dynamic>),),),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SyncProgramListModel.fromJson(String source) =>
-      SyncProgramListModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SyncProgramListModel.fromJson(String source) => SyncProgramListModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'SyncProgramListModel(programs: $programs)';
@@ -48,8 +45,9 @@ class SyncProgramListModel {
   @override
   bool operator ==(covariant SyncProgramListModel other) {
     if (identical(this, other)) return true;
-
-    return listEquals(other.programs, programs);
+  
+    return 
+      listEquals(other.programs, programs);
   }
 
   @override

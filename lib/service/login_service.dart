@@ -43,6 +43,7 @@ Future<String> loginUserService(
       //TODO: handle error
     }
   } catch (e) {
+    dprint(e);
     return "failed";
   }
 }

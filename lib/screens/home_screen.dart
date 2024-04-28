@@ -1,3 +1,4 @@
+import 'package:fitness/service/storage/programs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,8 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Fitness Programs'),
+        title:
+            Obx(() => Text('Programs: ${_allController.programList.length}')),
         backgroundColor: Theme.of(context).colorScheme.primary,
         //sync button
         actions: [
@@ -27,7 +29,7 @@ class HomeScreen extends StatelessWidget {
               Get.snackbar(
                 'Syncing',
                 'Syncing your programs',
-                snackPosition: SnackPosition.TOP,
+                snackPosition: SnackPosition.BOTTOM,
                 duration: const Duration(seconds: 3),
                 backgroundColor: Theme.of(context).colorScheme.background,
                 colorText: Colors.black,
@@ -38,7 +40,7 @@ class HomeScreen extends StatelessWidget {
               Get.snackbar(
                 'Synced',
                 'Your programs are synced',
-                snackPosition: SnackPosition.TOP,
+                snackPosition: SnackPosition.BOTTOM,
                 duration: const Duration(seconds: 3),
                 backgroundColor: Theme.of(context).colorScheme.background,
                 colorText: Colors.black,
@@ -56,6 +58,45 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          // //delete the program
+                          // _allController.programList.removeAt(index);
+                          // //update the local storage
+                          //show dialog
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Delete Program'),
+                                content: const Text(
+                                    'Are you sure you want to delete this program?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      //delete the program
+                                      ProgramService().deleteProgram(
+                                          _allController.programList[index],
+                                          index);
+
+                                      //update the local storage
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Yes'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('No'),
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -80,7 +121,22 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
               )
-            : const Text('No programs available')),
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('No programs available'),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // SYNC BUTTON
+                  ElevatedButton(
+                    onPressed: () async {
+                      await syncPrograms();
+                    },
+                    child: const Text('Get Programs from Server'),
+                  )
+                ],
+              )),
       ),
       floatingActionButton: FloatingActionButton.extended(
         label: const Row(

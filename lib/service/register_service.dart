@@ -60,6 +60,7 @@ Future<void> registerUserService(
           snackPosition: SnackPosition.BOTTOM,
         );
       } else {
+        dprint("error: ${errorRes.message}");
         Get.snackbar(
           "Error",
           "Error registering user: ${errorRes.message}",

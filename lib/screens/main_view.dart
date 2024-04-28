@@ -34,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     loadJsonData().then((value) {
       _allController.setMovementList(value);
+      _allController.setFilteredMovementList(value);
     });
     super.initState();
   }

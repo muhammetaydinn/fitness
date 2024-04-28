@@ -78,8 +78,7 @@ class AllController extends GetxController {
     return _registerResponseModel.value;
   }
 
-  Rx<ProgramModel> programModel =
-      ProgramModel(name: "", days: <Day>[]).obs;
+  Rx<ProgramModel> programModel = ProgramModel(name: "", days: <Day>[]).obs;
   ProgramModel get getProgramModel => programModel.value;
   set setProgramModel(value) => programModel.value = value;
   List<Day> days = <Day>[].obs;
@@ -99,7 +98,6 @@ class AllController extends GetxController {
   void setFilteredMovementList(List<MovementModel> value) {
     filteredMovementList.assignAll(value);
   }
-  
 
   RxList<ProgramModel> programList = <ProgramModel>[].obs;
   void setProgramList(List<ProgramModel> value) {
@@ -142,6 +140,12 @@ class AllController extends GetxController {
         "User logged in successfully",
         snackPosition: SnackPosition.BOTTOM,
       );
+    }else {
+      Get.snackbar(
+        "Error",
+        "Error logging in user",
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -152,7 +156,6 @@ class AllController extends GetxController {
         movementId: movementModel.id,
         reps: 0,
         weightDuration: 0,
-        
       ),
     );
   }
@@ -170,6 +173,6 @@ class AllController extends GetxController {
     selectedExercises.clear();
     programModel.value = ProgramModel(name: "", days: <Day>[]);
     days = <Day>[];
-    programList =  <ProgramModel>[].obs;
+    programList = <ProgramModel>[].obs;
   }
 }
