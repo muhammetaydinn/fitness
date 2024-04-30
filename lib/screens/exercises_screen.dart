@@ -1,5 +1,6 @@
 import 'package:fitness/data/convert_to_snake_case.dart';
 import 'package:fitness/model/MovementModel.dart';
+import 'package:fitness/service/other/dprint.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,6 +42,8 @@ class _EkranState extends State<Ekran> {
                 () => ListView.builder(
                     itemCount: _allController.movementList.length,
                     itemBuilder: (context, index) {
+                      dprint(getImagePathsLocal(convertToSnakeCase(
+                          _allController.movementList[index].name))[0]);
                       return ListTile(
                           title: Text(_allController.movementList[index].name),
 
@@ -53,10 +56,15 @@ class _EkranState extends State<Ekran> {
                               //yuklenmediyse gri bir container
 
                               Container(
+                                  width: 50,
                                   color: Colors.grey,
-                                  child: Image.network(getImagePaths(
-                                      convertToSnakeCase(_allController
-                                          .movementList[index].name))[0])));
+                                  child: Image.asset(
+                                    // 'assets/exercises/0.jpg',
+                                    getImagePathsLocal(convertToSnakeCase(
+                                        _allController
+                                            .movementList[index].name))[0],
+                                  )));
+                      // Image.network(getImagePaths(
                     }),
               )),
             ],
@@ -66,9 +74,18 @@ class _EkranState extends State<Ekran> {
   }
 }
 
-List<String> getImagePaths(String exercise) {
+// List<String> getImagePaths(String exercise) {
+//   return [
+//     'assets/res/$exercise-0.jpg',
+//     'assets/res/$exercise-1.jpg',
+//   ];
+// }
+
+List<String> getImagePathsLocal(String exercise) {
+  // C:\Users\47eyu\Desktop\Muhammet\fitness\assets\exercises\3_4_Sit-Up\images\0.jpg
+  // assets\exercises\3_4_Sit-Up\images\0.jpg
   return [
-    "https://raw.githubusercontent.com/muhammetaydinn/exercises.json/master/exercises/$exercise/images/0.jpg",
-    "https://raw.githubusercontent.com/muhammetaydinn/exercises.json/master/exercises/$exercise/images/1.jpg",
+    'assets/res/$exercise-0.jpg',
+    'assets/res/$exercise-1.jpg',
   ];
 }

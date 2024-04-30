@@ -26,6 +26,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   uuid: ^4.3.3
   reorderable_grid_view: ^2.2.8
+  flutter_gen: ^5.4.0
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +36,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
     - assets/
+    - assets/exercises/
+    - assets/res/

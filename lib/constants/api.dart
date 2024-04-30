@@ -1,8 +1,8 @@
 //set api endpoints like basurl
 
 class Api {
-  // static const baseUrl = 'http://10.0.2.2:8080';
-  static const baseUrl = 'http://192.168.1.123:8080';
+  static const baseUrl = 'http://10.0.2.2:8080';
+  // static const baseUrl = 'http://192.168.1.123:8080';
   static const v1Api = '$baseUrl/api/v1';
   static const registerApi = '$v1Api/auth/register';
   static const loginApi = '$v1Api/auth/authenticate';

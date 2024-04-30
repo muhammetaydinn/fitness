@@ -41,17 +41,20 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
           children: [
             Column(
               children: [
-                Image.network(getImagePaths(convertToSnakeCase(
+                Image.asset(
+                  // 'assets/exercises/0.jpg',
+                  getImagePathsLocal(convertToSnakeCase(
 
-                    //TODO:
-                    //get id from controller and get name from movementlist
-                    _allController.movementList
-                        .where((p0) =>
-                            p0.id ==
-                            program.days?[dayIndex].exercises?[exerciseIndex]
-                                .movementId)
-                        .first
-                        .name))[0]),
+                      //TODO:
+                      //get id from controller and get name from movementlist
+                      _allController.movementList
+                          .where((p0) =>
+                              p0.id ==
+                              program.days?[dayIndex].exercises?[exerciseIndex]
+                                  .movementId)
+                          .first
+                          .name))[0],
+                ),
                 Text(
                   getMovement(program.days?[dayIndex].exercises?[exerciseIndex]
                               .movementId)

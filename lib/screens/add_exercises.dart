@@ -183,7 +183,7 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
               () => Container(
                 height: 25,
                 color: Colors.grey,
-                child: Image.network(getImagePaths(convertToSnakeCase(
+                child: Image.asset(getImagePathsLocal(convertToSnakeCase(
                     //TODO:
                     //get id from controller and get name from movementlist
                     _allController.movementList
@@ -272,7 +272,6 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
                         },
                         child: const Text('Save'),
                       ),
-                     
                     ],
                   );
                 });

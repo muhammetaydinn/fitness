@@ -75,10 +75,10 @@ class SearchAddExercisesScreen extends StatelessWidget {
                     subtitle: Text(convertToSnakeCase(
                         _allController.filteredMovementList[index].name)),
                     trailing: Container(
-                      color: Colors.grey,
-                      child: Image.network(getImagePaths(convertToSnakeCase(
-                          _allController.filteredMovementList[index].name))[0]),
-                    ),
+                        color: Colors.grey,
+                        child: Image.asset(getImagePathsLocal(
+                            convertToSnakeCase(_allController
+                                .filteredMovementList[index].name))[0])),
                     onTap: () {
                       _allController.addSelectedExercise(
                           _allController.filteredMovementList[index]);
