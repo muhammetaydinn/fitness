@@ -55,9 +55,19 @@ Future<List<ProgramModel>> syncPrograms() async {
   SyncProgramListModel syncedProgramList = SyncProgramListModel.fromJson(
       response.body.isNotEmpty ? response.body : jsonEncode({"programs": []}));
   dprint(syncedProgramList.programs.length);
+  if (syncedProgramList.programs.isEmpty) {
+    //show snackbar
+    Get.snackbar(
+      'Error',
+      'No programs found',
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 3),
+      backgroundColor: Get.theme.colorScheme.background,
+      colorText: Get.theme.colorScheme.primary,
+    );
+  }
   // declare to programs getx controller
   allController.programList.value = syncedProgramList.programs;
-  
 
   //save programs to the local storage
   await ProgramService().updateStoredProgramList();

@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:fitness/constants/api.dart';
 import 'package:fitness/model/auth/LoginResponseModel.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'other/dprint.dart';
 import 'other/dprint.dart';
@@ -31,14 +33,27 @@ Future<String> loginUserService(
           LoginResponseModel.fromJson(response.body);
       dprint(
           "access_token: ${loginResponseModel.access_token}, refresh_token: ${loginResponseModel.refresh_token}");
-
+      dprint(loginResponseModel);
       storeTokens(
-          loginResponseModel.access_token, loginResponseModel.refresh_token);
+          loginResponseModel.access_token,
+          loginResponseModel.refresh_token,
+          loginResponseModel.email,
+          loginResponseModel.first_name,
+          loginResponseModel.last_name,
+          loginResponseModel.user_id);
       //change the islogged in to true in getx
       return "success";
     } else {
       dprint(response.body);
       dprint(response.statusCode);
+      if (response.statusCode == 403) {
+        Get.snackbar("Unauthorized", "",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+
+        return "unauthorized";
+      }
       return "failed";
       //TODO: handle error
     }

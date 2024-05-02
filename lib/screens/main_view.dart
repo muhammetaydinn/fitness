@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     const Ekran(),
-    const Ekran3()
+    const ProfileScreen()
   ];
 
   void _onItemTapped(int index) {

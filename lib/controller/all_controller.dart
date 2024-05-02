@@ -1,6 +1,7 @@
 import 'package:fitness/model/DayModel.dart';
 import 'package:fitness/model/MovementModel.dart';
 import 'package:fitness/model/ProgramModel.dart';
+import 'package:fitness/model/auth/LoginResponseModel.dart';
 import 'package:fitness/service/register_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -54,17 +55,16 @@ class AllController extends GetxController {
   get getSelectedExercises => selectedExercises;
   set setSelectedExercises(value) => selectedExercises = value;
 
-  // var dayName = ''.obs;
-  // get getDayName => dayName.value;
-  // set setDayName(value) => dayName.value = value;
-  // final programNameController = TextEditingController().obs;
-  // TextEditingController get getProgramNameController =>
-  //     programNameController.value;
-  // set setProgramNameController(value) => programNameController.value = value;
+  LoginResponseModel loginResponseModel = LoginResponseModel(
+      access_token: "",
+      refresh_token: "",
+      email: "",
+      first_name: "",
+      last_name: "",
+      user_id: 0);
 
-  // final dayNumberController = TextEditingController().obs;
-  // TextEditingController get getTextController => dayNumberController.value;
-  // set setTextController(value) => dayNumberController.value = value;
+  get getLoginResponseModel => loginResponseModel;
+  set setLoginResponseModel(value) => loginResponseModel = value;
 
   final dayNameController = TextEditingController().obs;
   TextEditingController get getDayNameController => dayNameController.value;
@@ -84,6 +84,26 @@ class AllController extends GetxController {
   set setWeightDurationController(value) =>
       weightDurationController.value = value;
 
+  final currentPasswordController = TextEditingController().obs;
+  TextEditingController get getCurrentPasswordController =>
+      currentPasswordController.value;
+  set setCurrentPasswordController(value) =>
+      currentPasswordController.value = value;
+
+  final newPasswordController = TextEditingController().obs;
+  TextEditingController get getNewPasswordController =>
+      newPasswordController.value;
+  set setNewPasswordController(value) => newPasswordController.value = value;
+
+  final confirmPasswordController = TextEditingController().obs;
+  TextEditingController get getConfirmPasswordController =>
+      confirmPasswordController.value;
+  set setConfirmPasswordController(value) =>
+      confirmPasswordController.value = value;
+
+  RxBool visible = false.obs;
+  RxBool get getVisible => visible;
+  set setVisible(value) => visible.value = value;
   final GetStorage box = GetStorage();
 
   final Rx<RegisterResponseModel> _registerResponseModel =

@@ -12,4 +12,6 @@ class Api {
   static const syncProgramsApi = '$v1Api/program/sync';
   // {{URL}}/api/v1/program/deleteMultiple
   static const deleteMultipleProgramsApi = '$v1Api/program/deleteMultiple';
+  //{{URL}}/api/v1/users
+  static const changePasswordPatchApi = '$v1Api/users';
 }
