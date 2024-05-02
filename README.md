@@ -4,7 +4,7 @@
 - BAZEN AYNI ISIMDE OLAN PROGRAMLARDA EXERCİSLERİ 3 KATINI EKLEYEBİLİYOR
 - INTERNET SERVISININ ÇALIŞIP ÇALIŞMADIĞINI GÖSTEREN BİR GÖSTERGE EKLE.
 - TİMEOUT SÜRESİNİ AYARLA HTTP BASE AYARLA
-- sifremi unuttum veya sifre degistirme kodu ekle spring halletsin.
+- sifremi unuttum spring halletsin.
 # not priority
 - movement detail screende radius buttons ile hareketin kasları vb zellikleri gösterebilirim sonra
 - EGER KULLANICI GIRIS YAPMADIYSA YEDEKLEME YAPAMAZ BİR LOGINE YONLENDIR OLUR BITER TEKRARDAN.
@@ -23,6 +23,7 @@
 - egzersizleri birbiri ardında yer değiştirilebilir yap.
 - giris cikis islemlerinde depolamalarını temizlemeyi unutma.
 - profil ekranında kullanıcının bilgilerini göster
+- sifre degistirme kodu ekle
 
 
 
