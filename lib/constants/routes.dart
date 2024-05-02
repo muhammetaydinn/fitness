@@ -6,6 +6,7 @@ import '../screens/auth_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/main_view.dart';
+import '../screens/movement_detail_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/search_add_exercises.dart';
 
@@ -26,5 +27,6 @@ List<GetPage> routes = [
   GetPage(name: '/addExercise', page: () => const AddExercisesScreen()),
   GetPage(name: '/searchAddExercises', page: () => SearchAddExercisesScreen()),
   GetPage(name: '/home', page: () => HomeScreen()),
-  GetPage(name: '/programDetail', page: () => const ProgramDetailScreen())
+  GetPage(name: '/programDetail', page: () => const ProgramDetailScreen()),
+  GetPage(name: '/movementDetail', page: () => MovementDetailScreen())
 ];

@@ -45,6 +45,11 @@ class _EkranState extends State<Ekran> {
                       dprint(getImagePathsLocal(convertToSnakeCase(
                           _allController.movementList[index].name))[0]);
                       return ListTile(
+                          onTap: () {
+                            Get.toNamed('/movementDetail',
+                                arguments:
+                                    _allController.movementList[index].id);
+                          },
                           title: Text(_allController.movementList[index].name),
 
                           // subtitle: Text(exercisesList[index].level),

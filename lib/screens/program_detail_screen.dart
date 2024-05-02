@@ -35,86 +35,175 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
 
     dprint(program.days?.length);
     Widget buildItem(int dayIndex, int exerciseIndex) {
-      return Card(
+      return InkWell(
         key: ValueKey(index),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Image.asset(
-                  // 'assets/exercises/0.jpg',
-                  getImagePathsLocal(convertToSnakeCase(
+        onTap: () {
+          Get.toNamed('/movementDetail',
+              arguments:
+                  program.days?[dayIndex].exercises?[exerciseIndex].movementId);
+        },
+        child: Card(
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Image.asset(
+                    // 'assets/exercises/0.jpg',
+                    getImagePathsLocal(convertToSnakeCase(
 
-                      //TODO:
-                      //get id from controller and get name from movementlist
-                      _allController.movementList
-                          .where((p0) =>
-                              p0.id ==
-                              program.days?[dayIndex].exercises?[exerciseIndex]
-                                  .movementId)
-                          .first
-                          .name))[0],
-                ),
-                Text(
-                  getMovement(program.days?[dayIndex].exercises?[exerciseIndex]
-                              .movementId)
-                          .name ??
-                      "",
-                ),
-                //set x rep x weight
-                Text(
-                    "${program.days?[dayIndex].exercises?[exerciseIndex].setCount} x ${program.days?[dayIndex].exercises?[exerciseIndex].reps} : ${program.days?[dayIndex].exercises?[exerciseIndex].weightDuration} "),
-              ],
-            ),
-            editMode
-                ? Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: IconButton(
-                            iconSize: 15,
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).colorScheme.secondary,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                        //TODO:
+                        //get id from controller and get name from movementlist
+                        _allController.movementList
+                            .where((p0) =>
+                                p0.id ==
+                                program.days?[dayIndex]
+                                    .exercises?[exerciseIndex].movementId)
+                            .first
+                            .name))[0],
+                  ),
+                  Text(
+                    getMovement(program.days?[dayIndex]
+                                .exercises?[exerciseIndex].movementId)
+                            .name ??
+                        "",
+                  ),
+                  //set x rep x weight
+                  Text(
+                      "${program.days?[dayIndex].exercises?[exerciseIndex].setCount} x ${program.days?[dayIndex].exercises?[exerciseIndex].reps} : ${program.days?[dayIndex].exercises?[exerciseIndex].weightDuration} "),
+                ],
+              ),
+              editMode
+                  ? Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: IconButton(
+                              iconSize: 15,
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.secondary,
+                                ),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
+                              color: Colors.white,
+                              icon: const Icon(Icons.edit_outlined),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Edit Excercise'),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            NumericTF(
+                                              controller: _allController
+                                                  .setCountController.value,
+                                              labelText: "SetCount",
+                                            ),
+                                            NumericTF(
+                                              controller: _allController
+                                                  .repCountController.value,
+                                              labelText: "Reps",
+                                            ),
+                                            NumericTF(
+                                              controller: _allController
+                                                  .weightDurationController
+                                                  .value,
+                                              labelText: "Weight/Time",
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                program
+                                                        .days?[dayIndex]
+                                                        .exercises?[exerciseIndex]
+                                                        .setCount =
+                                                    int.parse(_allController
+                                                        .setCountController
+                                                        .value
+                                                        .text);
+                                                program
+                                                        .days?[dayIndex]
+                                                        .exercises?[exerciseIndex]
+                                                        .reps =
+                                                    int.parse(_allController
+                                                        .repCountController
+                                                        .value
+                                                        .text);
+                                                program
+                                                        .days?[dayIndex]
+                                                        .exercises?[exerciseIndex]
+                                                        .weightDuration =
+                                                    int.parse(_allController
+                                                        .weightDurationController
+                                                        .value
+                                                        .text);
+                                              });
+
+                                              _allController.setCountController
+                                                  .value.text = '';
+                                              _allController.repCountController
+                                                  .value.text = '';
+                                              _allController
+                                                  .weightDurationController
+                                                  .value
+                                                  .text = '';
+
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Save'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
                             ),
-                            color: Colors.white,
-                            icon: const Icon(Icons.edit_outlined),
-                            onPressed: () {
-                              showDialog(
+                          ),
+                          SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: IconButton(
+                              style: ButtonStyle(
+                                iconSize: MaterialStateProperty.all(15),
+                                backgroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.secondary,
+                                ),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              color: Colors.white,
+                              icon: const Icon(Icons.delete_outline),
+                              onPressed: () {
+                                // _deleteExercise(index);
+                                //show dialog
+                                showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: const Text('Edit Excercise'),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          NumericTF(
-                                            controller: _allController
-                                                .setCountController.value,
-                                            labelText: "SetCount",
-                                          ),
-                                          NumericTF(
-                                            controller: _allController
-                                                .repCountController.value,
-                                            labelText: "Reps",
-                                          ),
-                                          NumericTF(
-                                            controller: _allController
-                                                .weightDurationController.value,
-                                            labelText: "Weight/Time",
-                                          ),
-                                        ],
-                                      ),
+                                      title: const Text('Delete Exercise'),
+                                      content: const Text(
+                                          'Are you sure you want to delete this exercise?'),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
@@ -125,107 +214,26 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                                         TextButton(
                                           onPressed: () {
                                             setState(() {
-                                              program
-                                                      .days?[dayIndex]
-                                                      .exercises?[exerciseIndex]
-                                                      .setCount =
-                                                  int.parse(_allController
-                                                      .setCountController
-                                                      .value
-                                                      .text);
-                                              program
-                                                      .days?[dayIndex]
-                                                      .exercises?[exerciseIndex]
-                                                      .reps =
-                                                  int.parse(_allController
-                                                      .repCountController
-                                                      .value
-                                                      .text);
-                                              program
-                                                      .days?[dayIndex]
-                                                      .exercises?[exerciseIndex]
-                                                      .weightDuration =
-                                                  int.parse(_allController
-                                                      .weightDurationController
-                                                      .value
-                                                      .text);
+                                              program.days?[dayIndex].exercises
+                                                  ?.removeAt(exerciseIndex);
                                             });
-
-                                            _allController.setCountController
-                                                .value.text = '';
-                                            _allController.repCountController
-                                                .value.text = '';
-                                            _allController
-                                                .weightDurationController
-                                                .value
-                                                .text = '';
-
                                             Navigator.pop(context);
                                           },
-                                          child: const Text('Save'),
+                                          child: const Text('Delete'),
                                         ),
                                       ],
                                     );
-                                  });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: IconButton(
-                            style: ButtonStyle(
-                              iconSize: MaterialStateProperty.all(15),
-                              backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).colorScheme.secondary,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
+                                  },
+                                );
+                              },
                             ),
-                            color: Colors.white,
-                            icon: const Icon(Icons.delete_outline),
-                            onPressed: () {
-                              // _deleteExercise(index);
-                              //show dialog
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text('Delete Exercise'),
-                                    content: const Text(
-                                        'Are you sure you want to delete this exercise?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            program.days?[dayIndex].exercises
-                                                ?.removeAt(exerciseIndex);
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Delete'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Container(),
-          ],
+                        ],
+                      ),
+                    )
+                  : Container(),
+            ],
+          ),
         ),
       );
     }
@@ -263,6 +271,7 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
               : Container(),
         ],
       ),
+      //Days
       body: ListView.builder(
         itemBuilder: (context, ind) {
           return Padding(
@@ -405,6 +414,7 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                         : Container(),
                   ],
                 ),
+                //Exercises
                 ReorderableGridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
