@@ -14,4 +14,10 @@ class Api {
   static const deleteMultipleProgramsApi = '$v1Api/program/deleteMultiple';
   //{{URL}}/api/v1/users
   static const changePasswordPatchApi = '$v1Api/users';
+  //{{URL}}/api/v1/users/reset-password-otp
+  static const resetPasswordOtpApi = '$v1Api/users/reset-password-otp';
+//{{URL}}/api/v1/users/otp
+  static const verifyOtpApi = '$v1Api/users/otp';
+  //{{URL}}/api/v1/users/new-password
+  static const newPasswordApi = '$v1Api/users/new-password';
 }

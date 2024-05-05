@@ -1,3 +1,6 @@
+import 'package:fitness/screens/forgot_password_screen.dart';
+import 'package:fitness/screens/new_password.dart';
+import 'package:fitness/screens/otp_screen.dart';
 import 'package:fitness/screens/program_detail_screen.dart';
 import 'package:get/get.dart';
 
@@ -28,5 +31,8 @@ List<GetPage> routes = [
   GetPage(name: '/searchAddExercises', page: () => SearchAddExercisesScreen()),
   GetPage(name: '/home', page: () => HomeScreen()),
   GetPage(name: '/programDetail', page: () => const ProgramDetailScreen()),
-  GetPage(name: '/movementDetail', page: () => MovementDetailScreen())
+  GetPage(name: '/movementDetail', page: () => MovementDetailScreen()),
+  GetPage(name: '/forgotPassword', page: () => ForgotPasswordScreen()),
+  GetPage(name: '/otp', page: () => OtpScreen()),
+  GetPage(name: '/new-password', page: () => NewPasswordScreen()),
 ];

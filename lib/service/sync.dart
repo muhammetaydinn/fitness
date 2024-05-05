@@ -16,7 +16,7 @@ import 'storage/programs.dart';
 
 Future<List<ProgramModel>> syncPrograms() async {
   //get user token
-  String accessToken = await getToken();
+  String? accessToken = await getToken();
 
   final allController = Get.put(AllController());
   var programList = allController.programList;
@@ -29,7 +29,7 @@ Future<List<ProgramModel>> syncPrograms() async {
   dprint("deletedProgramIdList: $deletedProgramIdList");
 
   //delete multiple programs with deletedProgramIdList
-  if (deletedProgramIdList != null) {
+  if (deletedProgramIdList != null && accessToken != null) {
     var deleteResponse = await http.post(
         headers: {
           "Content-Type": "application/json",
@@ -40,6 +40,8 @@ Future<List<ProgramModel>> syncPrograms() async {
     dprint(deleteResponse.statusCode);
     //delete deletedProgramIdList from local storage
     GetStorage().remove('deletedProgramIdList');
+  } else {
+    dprint("deletedProgramIdList is null OR accessToken is null");
   }
 
   //post local programs to the server

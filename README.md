@@ -13,6 +13,7 @@
 - resimler yüklenirken bir shimmer eklenmeli
 - PROJE BITEYAZINCA PRINTLERI SIL
 - İSSUE hiç egzersizi olmayan program sync edilmez
+- 403 hataları için(süre dolması veya ayni mailden baska cihazdan giris yapılması) bir hata sayfası ekle tekkrardan giriş yapmasınıı sağla
 # done
 - assetteki json verileri en başta oku ve getx modeline ekle (sürekli okuma yapmasın yani)
 - resimlerin internetten yüklenmesi zor olabilir bunun için iki özellik var

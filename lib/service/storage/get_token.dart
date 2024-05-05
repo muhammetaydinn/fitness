@@ -1,10 +1,11 @@
 import 'package:fitness/model/auth/LoginResponseModel.dart';
 import 'package:get_storage/get_storage.dart';
 
-Future<String> getToken() async {
+String? getToken() {
   final box = GetStorage();
   return box.read('access_token');
 }
+
 Future<LoginResponseModel> getLoginResponseModel() async {
   final box = GetStorage();
   return LoginResponseModel(

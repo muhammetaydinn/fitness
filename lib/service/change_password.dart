@@ -12,12 +12,16 @@ Future<String> changePassword(
   String oldPassword,
   String newPassword,
 ) async {
-  String accessToken = await getToken();
+  String? accessToken = await getToken();
   final allController = Get.put(AllController());
 
   try {
     dprint("api: ${Api.changePasswordPatchApi}");
     dprint("object: $oldPassword, $newPassword");
+    if (accessToken == null) {
+      dprint("Access token is null");
+      return "failed";
+    }
     final response = await http.patch(
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +50,9 @@ Future<String> changePassword(
       return "success";
     } else {
       dprint(response.body.toString());
-      Get.snackbar("Error", response.body.toString(),
+      Get.snackbar("Error", 
+      
+      response.body.toString(),
           snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red);
       dprint(response.statusCode);
       return "failed";

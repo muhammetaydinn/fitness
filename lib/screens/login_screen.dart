@@ -50,6 +50,15 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 // Add your login logic here
                 //navigate to login screen
+                Get.toNamed('/forgotPassword');
+              },
+              child: const Text('Forgot Password?'),
+            ),
+            const SizedBox(height: 8.0),
+            TextButton(
+              onPressed: () {
+                // Add your login logic here
+                //navigate to login screen
                 Get.toNamed('/register');
               },
               child: const Text('Haven\'t registered yet? Register here!'),

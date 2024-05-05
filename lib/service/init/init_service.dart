@@ -15,7 +15,11 @@ class InitService {
     //modele ata
     allController.programList.value = List.from(a);
 
-    var user = await getLoginResponseModel();
-    allController.loginResponseModel = user;
+    //get access_token and if it is  not null
+    var token = await getToken();
+    if (token != null) {
+      var user = await getLoginResponseModel();
+      allController.loginResponseModel = user;
+    }
   }
 }
