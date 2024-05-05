@@ -17,3 +17,17 @@ Future<LoginResponseModel> getLoginResponseModel() async {
     user_id: box.read('user_id'),
   );
 }
+Future<void> setLoginResponseModel(
+    LoginResponseModel loginResponseModel) async {
+  var token = loginResponseModel.access_token;
+  if (token != null) {
+    //STORE THE TOKENS
+    final box = GetStorage();
+    box.write('access_token', loginResponseModel.access_token);
+    box.write('refresh_token', loginResponseModel.refresh_token);
+    box.write('email', loginResponseModel.email);
+    box.write('first_name', loginResponseModel.first_name);
+    box.write('last_name', loginResponseModel.last_name);
+    box.write('user_id', loginResponseModel.user_id);
+  }
+}

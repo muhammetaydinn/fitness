@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:fitness/constants/api.dart';
 import 'package:fitness/model/auth/LoginResponseModel.dart';
+import 'package:fitness/service/init/init_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +32,9 @@ Future<String> loginUserService(
       dprint('User logined successfully');
       LoginResponseModel loginResponseModel =
           LoginResponseModel.fromJson(response.body);
+        
+
+      InitService().login(loginResponseModel);
       dprint(
           "access_token: ${loginResponseModel.access_token}, refresh_token: ${loginResponseModel.refresh_token}");
       dprint(loginResponseModel);
