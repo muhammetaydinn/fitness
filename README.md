@@ -4,7 +4,6 @@
 - BAZEN AYNI ISIMDE OLAN PROGRAMLARDA EXERCİSLERİ 3 KATINI EKLEYEBİLİYOR
 - INTERNET SERVISININ ÇALIŞIP ÇALIŞMADIĞINI GÖSTEREN BİR GÖSTERGE EKLE.
 - TİMEOUT SÜRESİNİ AYARLA HTTP BASE AYARLA
-- app icon
 - splash screen
 - dockerize spring boot and mysql
 - canlıya al
@@ -29,6 +28,7 @@
 - profil ekranında kullanıcının bilgilerini göster
 - sifre degistirme kodu ekle
 - sifremi unuttum spring halletsin.
+- app icon
 
 
 
