@@ -4,7 +4,10 @@
 - BAZEN AYNI ISIMDE OLAN PROGRAMLARDA EXERCİSLERİ 3 KATINI EKLEYEBİLİYOR
 - INTERNET SERVISININ ÇALIŞIP ÇALIŞMADIĞINI GÖSTEREN BİR GÖSTERGE EKLE.
 - TİMEOUT SÜRESİNİ AYARLA HTTP BASE AYARLA
-- sifremi unuttum spring halletsin.
+- app icon
+- splash screen
+- dockerize spring boot and mysql
+- canlıya al
 # not priority
 - movement detail screende radius buttons ile hareketin kasları vb zellikleri gösterebilirim sonra
 - EGER KULLANICI GIRIS YAPMADIYSA YEDEKLEME YAPAMAZ BİR LOGINE YONLENDIR OLUR BITER TEKRARDAN.
@@ -25,6 +28,7 @@
 - giris cikis islemlerinde depolamalarını temizlemeyi unutma.
 - profil ekranında kullanıcının bilgilerini göster
 - sifre degistirme kodu ekle
+- sifremi unuttum spring halletsin.
 
 
 

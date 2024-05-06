@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       getPages: routes,
       initialRoute: "/",
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Fitness',
       darkTheme: darkTheme,
       theme: theme,
     );
