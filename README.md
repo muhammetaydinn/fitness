@@ -5,6 +5,7 @@
 - dockerize spring boot and mysql
 - canlıya al
 - uygulama ui toparla
+- hata acaba bizim frommaplerde filan mı ? 
 # not priority
 - movement detail screende radius buttons ile hareketin kasları vb zellikleri gösterebilirim sonra
 - EGER KULLANICI GIRIS YAPMADIYSA YEDEKLEME YAPAMAZ BİR LOGINE YONLENDIR OLUR BITER TEKRARDAN.

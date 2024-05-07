@@ -36,6 +36,10 @@ void snackBarErrorException(
         "Login Failed One or more fields or invalid",
         snackPosition: SnackPosition.BOTTOM,
       );
+    } else if (errorRes.status == 403) {
+      Get.snackbar("Unauthorized",
+          "You are not authorized to access this page, please logout and login first",
+          snackPosition: SnackPosition.BOTTOM);
     } else {
       Get.snackbar("Error", "Error: ${errorRes.message}",
           snackPosition: SnackPosition.BOTTOM);

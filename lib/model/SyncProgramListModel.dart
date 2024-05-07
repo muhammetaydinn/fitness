@@ -28,7 +28,7 @@ class SyncProgramListModel {
       'programs': programs.map((x) => x.toMap()).toList(),
     };
   }
-
+  //TODO: BURADA HATA OLABİLİR Mİ
   factory SyncProgramListModel.fromMap(Map<String, dynamic> map) {
     return SyncProgramListModel(
       programs: List<ProgramModel>.from((map['programs'] as List<dynamic>).map<ProgramModel>((x) => ProgramModel.fromMap(x as Map<String,dynamic>),),),

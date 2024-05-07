@@ -1,17 +1,9 @@
-//sync programs service
-
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:fitness/service/dio_config.dart';
 import 'package:fitness/service/other/dprint.dart';
 import 'package:fitness/service/snackbar_error_exception.dart';
-import 'package:fitness/service/storage/get_token.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
-import 'package:fitness/model/ProgramModel.dart';
-
 import '../constants/api.dart';
 import '../controller/all_controller.dart';
 import '../model/SyncProgramListModel.dart';
@@ -52,7 +44,7 @@ Future<void> deletePrograms(List<int> deletedProgramIdList, Dio dio) async {
       if (deleteResponse.statusCode! >= 200 &&
           deleteResponse.statusCode! < 300) {
         //delete deletedProgramIdList from local storage
-        GetStorage().remove('deletedProgramIdList');
+      await  GetStorage().remove('deletedProgramIdList');
       } else {
         snackBarErrorException(deleteResponse.data);
       }
@@ -80,8 +72,8 @@ Future<void> postPrograms(
       await ProgramService().updateStoredProgramList();
       if (syncedProgramList.programs.isEmpty) {
         Get.snackbar(
-          'Error',
           'No programs found',
+          'Create first your program.',
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 3),
           backgroundColor: Get.theme.colorScheme.background,
