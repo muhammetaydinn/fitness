@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:fitness/constants/api.dart';
 import 'package:fitness/service/dio_config.dart';
+import 'package:fitness/service/snackbar_error_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForgotPasswordService {
-  final dio = Dio(getBaseOptions()); // Provide a dio instance
+  Dio dio = DioConfig.getDio(baseUrl: Api.baseUrl);
 
   //send email
-  Future<bool> sendEmail(String email, bool isScreenOtp) async {
+  Future<void> sendEmail(String email, bool isScreenOtp) async {
     // Send email to the user with dio
     var response = await dio.post(
       Api.resetPasswordOtpApi,
@@ -25,20 +26,14 @@ class ForgotPasswordService {
       );
       //if current screen is not otp screen then navigate to otp screen
       !isScreenOtp ? Get.toNamed("/otp", arguments: email) : null;
-      return true;
       //show snackbar
     } else {
-      Get.snackbar(
-        "Error",
-        "${response.data['message']}",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return false;
+      snackBarErrorException(response.data);
     }
   }
 
   // send otp
-  Future<bool> sendOTP(String otp, String email) async {
+  Future<void> sendOTP(String otp, String email) async {
     var response = await dio.post(Api.verifyOtpApi, data: {
       'otp': otp,
       'email': email,
@@ -58,19 +53,13 @@ class ForgotPasswordService {
           'otp': otp,
         },
       );
-      return true;
     } else {
-      Get.snackbar(
-        "Error",
-        "${response.data['message']}",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return false;
+      snackBarErrorException(response.data);
     }
   }
 
   // new password
-  Future<bool> newPassword(
+  Future<void> newPassword(
     String email,
     String otp,
     String password,
@@ -87,14 +76,8 @@ class ForgotPasswordService {
       //reset all stack and navigate to login screen
       Get.offAllNamed("/login");
 
-      return true;
     } else {
-      Get.snackbar(
-        "Error",
-        "${response.data['message']}",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return false;
+      snackBarErrorException(response.data);
     }
   }
 }

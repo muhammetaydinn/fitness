@@ -1,3 +1,5 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:fitness/service/login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,9 +21,17 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            TextFormField(
+              autovalidateMode: AutovalidateMode.always,
+              validator: (value) => allController.loginEmail.isEmpty ||
+                      EmailValidator.validate(allController.loginEmail.value)
+                  ? null
+                  : "Please enter a valid email",
               decoration: const InputDecoration(
                 labelText: 'Email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
               ),
               onChanged: allController.loginEmail,
             ),
@@ -30,16 +40,33 @@ class LoginScreen extends StatelessWidget {
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'Password',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
               ),
               onChanged: allController.loginPassword,
             ),
             const SizedBox(height: 16.0),
             Obx(
               () => ElevatedButton(
-                onPressed: allController.loginEmail.isNotEmpty &&
+                onPressed: allController.loginEmail.isEmpty ||
                         allController.loginPassword.isNotEmpty
                     ? () {
-                        allController.login();
+                        if (EmailValidator.validate(
+                            allController.loginEmail.value)) {
+                          FocusScope.of(context).unfocus();
+                          loginUserService(
+                            allController.loginEmail.value,
+                            allController.loginPassword.value,
+                          );
+                        } else {
+                          Get.snackbar(
+                            "Error",
+                            "Please enter a valid email",
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                        }
+                        //unfocus the textfield
                       }
                     : null,
                 child: const Text('Login'),

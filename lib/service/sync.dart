@@ -2,7 +2,10 @@
 
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:fitness/service/dio_config.dart';
 import 'package:fitness/service/other/dprint.dart';
+import 'package:fitness/service/snackbar_error_exception.dart';
 import 'package:fitness/service/storage/get_token.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,9 +17,9 @@ import '../controller/all_controller.dart';
 import '../model/SyncProgramListModel.dart';
 import 'storage/programs.dart';
 
-Future<List<ProgramModel>> syncPrograms() async {
+Future<void> syncPrograms() async {
+  Dio dio = DioConfig.getDio(baseUrl: Api.baseUrl);
   //get user token
-  String? accessToken = await getToken();
 
   final allController = Get.put(AllController());
   var programList = allController.programList;
@@ -25,54 +28,70 @@ Future<List<ProgramModel>> syncPrograms() async {
       SyncProgramListModel(programs: []);
   syncProgramListModel.programs = List.from(programList);
   //get deletedProgramIdList
-  final deletedProgramIdList = await GetStorage().read('deletedProgramIdList');
-  dprint("deletedProgramIdList: $deletedProgramIdList");
+  List<dynamic> temp = GetStorage().read('deletedProgramIdList') ?? [];
+  List<int> deletedProgramIdList = temp.map((e) => e as int).toList();
 
+  //deleted but not synced programs so delete those programs
+  await deletePrograms(deletedProgramIdList, dio);
+  //post programs to the server
+  await postPrograms(syncProgramListModel, dio);
+}
+
+Future<void> deletePrograms(List<int> deletedProgramIdList, Dio dio) async {
+  dprint("deletedProgramIdList: $deletedProgramIdList");
   //delete multiple programs with deletedProgramIdList
-  if (deletedProgramIdList != null && accessToken != null) {
-    var deleteResponse = await http.post(
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $accessToken"
-        },
-        Uri.parse(Api.deleteMultipleProgramsApi),
-        body: jsonEncode(deletedProgramIdList ?? {}));
-    dprint(deleteResponse.statusCode);
-    //delete deletedProgramIdList from local storage
-    GetStorage().remove('deletedProgramIdList');
+  if (deletedProgramIdList.isNotEmpty) {
+    dprint("deletedProgramIdList: $deletedProgramIdList");
+    try {
+      var deleteResponse = await dio.post(
+        Api.deleteMultipleProgramsApi,
+        data: deletedProgramIdList,
+      );
+      dprint(deleteResponse.statusCode);
+      // Handle the response
+      if (deleteResponse.statusCode! >= 200 &&
+          deleteResponse.statusCode! < 300) {
+        //delete deletedProgramIdList from local storage
+        GetStorage().remove('deletedProgramIdList');
+      } else {
+        snackBarErrorException(deleteResponse.data);
+      }
+    } catch (e) {
+      snackBarErrorException(e);
+    }
   } else {
     dprint("deletedProgramIdList is null OR accessToken is null");
   }
+}
 
-  //post local programs to the server
-  dprint("syncProgramListModel: ${syncProgramListModel.toJson()}");
-  var response = await http.post(headers: {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer $accessToken"
-  }, Uri.parse(Api.syncProgramsApi), body: syncProgramListModel.toJson());
-  dprint("response: ${(response.body)}");
-  dprint("status code: ${response.statusCode}");
-  //TODO: handle response
-  //get programs from the server
-  SyncProgramListModel syncedProgramList = SyncProgramListModel.fromJson(
-      response.body.isNotEmpty ? response.body : jsonEncode({"programs": []}));
-  dprint(syncedProgramList.programs.length);
-  if (syncedProgramList.programs.isEmpty) {
-    //show snackbar
-    Get.snackbar(
-      'Error',
-      'No programs found',
-      snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 3),
-      backgroundColor: Get.theme.colorScheme.background,
-      colorText: Get.theme.colorScheme.primary,
+Future<void> postPrograms(
+    SyncProgramListModel syncProgramListModel, Dio dio) async {
+  final allController = Get.put(AllController());
+  try {
+    var response = await dio.post(
+      Api.syncProgramsApi,
+      data: syncProgramListModel.toJson(),
     );
+    // Handle the response
+    if (response.statusCode! >= 200 && response.statusCode! < 300) {
+      SyncProgramListModel syncedProgramList = SyncProgramListModel.fromMap(
+          response.data.isNotEmpty ? response.data : {"programs": []});
+      allController.programList.value = syncedProgramList.programs;
+      await ProgramService().updateStoredProgramList();
+      if (syncedProgramList.programs.isEmpty) {
+        Get.snackbar(
+          'Error',
+          'No programs found',
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 3),
+          backgroundColor: Get.theme.colorScheme.background,
+          colorText: Get.theme.colorScheme.primary,
+        );
+      }
+    } else {
+      snackBarErrorException(response.data);
+    }
+  } catch (e) {
+    snackBarErrorException(e);
   }
-  // declare to programs getx controller
-  allController.programList.value = syncedProgramList.programs;
-
-  //save programs to the local storage
-  await ProgramService().updateStoredProgramList();
-
-  return [];
 }

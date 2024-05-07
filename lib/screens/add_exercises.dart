@@ -338,6 +338,8 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
                 programNameController.clear();
                 _allController.dayNumber.value = '';
                 dayNumberController.clear();
+                //unfocus the textfield
+                FocusScope.of(context).unfocus();
               }
             : null,
         child: const Text('Create Program'),

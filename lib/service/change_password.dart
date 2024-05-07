@@ -1,61 +1,47 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:fitness/constants/api.dart';
 import 'package:fitness/controller/all_controller.dart';
+import 'package:fitness/service/dio_config.dart';
 import 'package:fitness/service/other/dprint.dart';
-import 'package:fitness/service/storage/get_token.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
-Future<String> changePassword(
+Future<void> changePassword(
   String oldPassword,
   String newPassword,
 ) async {
-  String? accessToken = await getToken();
   final allController = Get.put(AllController());
+  Dio dio = DioConfig.getDio(baseUrl: Api.baseUrl);
 
   try {
     dprint("api: ${Api.changePasswordPatchApi}");
     dprint("object: $oldPassword, $newPassword");
-    if (accessToken == null) {
-      dprint("Access token is null");
-      return "failed";
-    }
-    final response = await http.patch(
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $accessToken"
-      },
-      Uri.parse(Api.changePasswordPatchApi),
-      body: jsonEncode({
+    var response = await dio.patch(
+      Api.changePasswordPatchApi,
+      data: {
         "currentPassword": oldPassword,
         "newPassword": newPassword,
         "confirmationPassword": newPassword
-      }),
+      },
     );
 
     // Handle the response
-    if (response.statusCode >= 200 && response.statusCode < 300) {
+    if (response.statusCode! >= 200 && response.statusCode! < 300) {
       dprint('Password changed successfully');
-      Get.snackbar("Password Changed", response.body.toString(),
+      Get.snackbar("Password Changed", response.data.toString(),
           snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.green);
       //TODO: PROFILE SCREEN TOGGLE CLOSE AND CLEAR TEXTFIELDS
-      dprint(response.body);
+      dprint(response.data);
       //clear the textfields and close the toggle
       allController.currentPasswordController.value.clear();
       allController.newPasswordController.value.clear();
       allController.confirmPasswordController.value.clear();
       allController.visible.value = false;
-      return "success";
     } else {
-      dprint(response.body.toString());
-      Get.snackbar("Error", 
-      
-      response.body.toString(),
+      dprint(response.data.toString());
+      Get.snackbar("Error", response.data.toString(),
           snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red);
       dprint(response.statusCode);
-      return "failed";
     }
   } catch (e) {
     dprint(e);
@@ -65,6 +51,5 @@ Future<String> changePassword(
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.red,
     );
-    return "failed";
   }
 }

@@ -22,14 +22,5 @@ abstract class _LoginStore with Store {
     password = value;
   }
 
-  Future<void> login() async {
-    dprint(
-      'First Name:Email: $email, Password: $password',
-    );
-    var response = await loginUserService(
-      email,
-      password,
-    );
-    dprint(response);
-  }
+
 }

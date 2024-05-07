@@ -104,7 +104,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         n.isNotEmpty &&
                                         a.isNotEmpty &&
                                         n == a) {
-                                      await changePassword(c, n);
+                                      if (c != n) {
+                                        await changePassword(c, n);
+                                      } else {
+                                        Get.snackbar(
+                                          "Error",
+                                          "New password can't be the same as the old password",
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: Colors.red,
+                                          colorText: Colors.white,
+                                        );
+                                      }
+
                                       //clear textfields and toggle visibility
                                     } else {
                                       //show error

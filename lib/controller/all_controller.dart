@@ -157,31 +157,7 @@ class AllController extends GetxController {
     );
   }
 
-  Future<void> login() async {
-    dprint("object: ${loginEmail.value}, ${loginPassword.value}");
 
-    var login = await loginUserService(
-      loginEmail.value,
-      loginPassword.value,
-    );
-    if (login == "success") {
-      //set isloggedin to true
-      // navigate to home screen and clean the stack and show snackbar
-      isLoggedin.value = true;
-      Get.offAllNamed("/main");
-      Get.snackbar(
-        "User Logged in",
-        "User logged in successfully",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } else {
-      Get.snackbar(
-        "Error",
-        "Error logging in user",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
-  }
 
   void addSelectedExercise(MovementModel movementModel) {
     //  add selected exercises list to our allcontroller days i exercises list

@@ -1,68 +1,61 @@
 //import http
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:fitness/constants/api.dart';
+import 'package:fitness/controller/all_controller.dart';
 import 'package:fitness/model/auth/LoginResponseModel.dart';
+import 'package:fitness/service/dio_config.dart';
 import 'package:fitness/service/init/init_service.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'other/dprint.dart';
+import 'package:fitness/service/snackbar_error_exception.dart';
+import 'package:get/get.dart' hide Response;
 import 'other/dprint.dart';
 import 'storage/login_storage.dart';
 
-Future<String> loginUserService(
+Future<void> loginUserService(
   String email,
   String password,
 ) async {
   try {
-    dprint("api: ${Api.loginApi}");
+    Dio dio = DioConfig.getDio(baseUrl: Api.baseUrl);
     dprint("object: $email, $password");
-    final response = await http.post(
-      headers: {"Content-Type": "application/json"},
-      Uri.parse(Api.loginApi),
-      body: jsonEncode({
+    dprint(dio.options.baseUrl + Api.loginApi);
+    var response = await dio.post(
+      Api.loginApi,
+      data: jsonEncode({
         "email": email,
         "password": password,
       }),
     );
-
     // Handle the response
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      dprint('User logined successfully');
-      LoginResponseModel loginResponseModel =
-          LoginResponseModel.fromJson(response.body);
-        
-
-      InitService().login(loginResponseModel);
-      dprint(
-          "access_token: ${loginResponseModel.access_token}, refresh_token: ${loginResponseModel.refresh_token}");
-      dprint(loginResponseModel);
-      storeTokens(
-          loginResponseModel.access_token,
-          loginResponseModel.refresh_token,
-          loginResponseModel.email,
-          loginResponseModel.first_name,
-          loginResponseModel.last_name,
-          loginResponseModel.user_id);
-      //change the islogged in to true in getx
-      return "success";
+    if (response.statusCode! >= 200 && response.statusCode! < 300) {
+      loginSuccess(response);
     } else {
-      dprint(response.body);
-      dprint(response.statusCode);
-      if (response.statusCode == 403) {
-        Get.snackbar("Unauthorized", "",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-
-        return "unauthorized";
-      }
-      return "failed";
-      //TODO: handle error
+      snackBarErrorException(response.data);
     }
   } catch (e) {
-    dprint(e);
-    return "failed";
+    snackBarErrorException(e);
   }
+}
+
+void loginSuccess(Response response) {
+  final allController = Get.put(AllController());
+  dprint('User logined successfully');
+  // set login response model
+  LoginResponseModel loginResponseModel =
+      LoginResponseModel.fromMap(response.data);
+  // set the login response model in the init service for update the controller
+  InitService().login(loginResponseModel);
+  dprint(
+      "access_token: ${loginResponseModel.access_token}, refresh_token: ${loginResponseModel.refresh_token}");
+  // store the tokens in the storage
+  storeTokens(loginResponseModel);
+  //change the islogged in to true in getx
+  allController.isLoggedin.value = true;
+  Get.offAllNamed("/main");
+  Get.snackbar(
+    "User Logged in",
+    "User logged in successfully",
+    snackPosition: SnackPosition.BOTTOM,
+  );
 }

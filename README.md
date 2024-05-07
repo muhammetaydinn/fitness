@@ -2,8 +2,6 @@
 
 ## Yapılacaklar
 - BAZEN AYNI ISIMDE OLAN PROGRAMLARDA EXERCİSLERİ 3 KATINI EKLEYEBİLİYOR
-- INTERNET SERVISININ ÇALIŞIP ÇALIŞMADIĞINI GÖSTEREN BİR GÖSTERGE EKLE.
-- TİMEOUT SÜRESİNİ AYARLA HTTP BASE AYARLA
 - dockerize spring boot and mysql
 - canlıya al
 - uygulama ui toparla
@@ -30,5 +28,8 @@
 - sifremi unuttum spring halletsin.
 - app icon
 - splash screen
+- email validasyonu ekle
+- DİO EKLEDIM TUM FROMJSONLARI FROMMAP YAP
+- INTERNET SERVISININ ÇALIŞIP ÇALIŞMADIĞINI GÖSTEREN BİR GÖSTERGE EKLE. TİMEOUT SÜRESİNİ AYARLA HTTP BASE AYARLA 
 
 
