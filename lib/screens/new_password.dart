@@ -23,14 +23,13 @@ class NewPasswordScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Enter your new password',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text('Enter your new password',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                    )),
             const SizedBox(height: 16.0),
+            //TODO: AT LEAEST 6 CHARCTERS
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: TextField(

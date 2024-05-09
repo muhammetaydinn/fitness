@@ -16,6 +16,7 @@ import '../controller/all_controller.dart';
 import '../data/convert_to_snake_case.dart';
 import '../model/ExerciseModel.dart';
 import '../service/other/dprint.dart';
+import '../widgets/bodyPartCustomPaint.dart';
 
 class SearchAddExercisesScreen extends StatelessWidget {
   SearchAddExercisesScreen({
@@ -38,6 +39,19 @@ class SearchAddExercisesScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            //Add this CustomPaint widget to the Widget Tre
+            //TODO: EN SON EKLENEBİLECEK FEATURE
+            // SizedBox(
+            //     width: 300,
+            //     height: 450,
+            //     child: //Add this CustomPaint widget to the Widget Tree
+            //         CustomPaint(
+            //       size: Size(
+            //           MediaQuery.of(context).size.width,
+            //           (MediaQuery.of(context).size.width * 1.6694214876033058)
+            //               .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+            //       painter: RPSCustomPainter(),
+            //     )),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -95,21 +109,39 @@ class SearchAddExercisesScreen extends StatelessWidget {
                   child: Container(
                     height: 100,
                     width: MediaQuery.of(context).size.width,
-                    color: Colors.grey,
+                    color: Theme.of(context).colorScheme.secondary,
                     child: Obx(
                       () => ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: _allController.selectedExercises.length ?? 0,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: Container(
-                              width: 50,
+                              width: 100,
                               height: 50,
                               color: Colors.blue,
-                              child: Text(getMovement(_allController
-                                      .selectedExercises[index].movementId!)
-                                  .name),
+                              child: Column(
+                                children: [
+                                  //shorten the text
+                                  Text(
+                                    getMovement(_allController
+                                            .selectedExercises[index]
+                                            .movementId!)
+                                        .name,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Image.asset(getImagePathsLocal(
+                                          convertToSnakeCase(getMovement(
+                                                  _allController
+                                                      .selectedExercises[index]
+                                                      .movementId!)
+                                              .name))[0])),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -117,26 +149,61 @@ class SearchAddExercisesScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    dprint(
-                        'selected exercises: ${_allController.selectedExercises.length}');
-                    List<ExcerciseModel> temp =
-                        List.from(_allController.selectedExercises);
-                    _allController.selectedExercises.clear();
+                Container(
+                    height: 100,
+                    color: Theme.of(context).colorScheme.secondary,
+                    child: Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            dprint(
+                                'selected exercises: ${_allController.selectedExercises.length}');
+                            List<ExcerciseModel> temp =
+                                List.from(_allController.selectedExercises);
+                            _allController.selectedExercises.clear();
 
-                    Get.back(result: temp);
-                    //clear the selected exercises list
-                  },
-                  child: const Text('Save'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _allController.dayNameController.value.text = '';
-                    _allController.selectedExercises.clear();
-                  },
-                  child: const Text('Clear'),
-                ),
+                            Get.back(result: temp);
+                            //clear the selected exercises list
+                          },
+                          child: const Text('Save'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            //show dialog to clear the selected exercises list
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Clear'),
+                                  content: const Text(
+                                      'Are you sure you want to clear the selected exercises?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('No'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        _allController.selectedExercises
+                                            .clear();
+                                        _allController
+                                            .dayNameController.value.text = '';
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: const Text('Clear'),
+                          //
+                        ),
+                      ],
+                    ))
               ],
             )
           ],

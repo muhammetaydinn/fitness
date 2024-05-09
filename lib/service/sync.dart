@@ -44,7 +44,7 @@ Future<void> deletePrograms(List<int> deletedProgramIdList, Dio dio) async {
       if (deleteResponse.statusCode! >= 200 &&
           deleteResponse.statusCode! < 300) {
         //delete deletedProgramIdList from local storage
-      await  GetStorage().remove('deletedProgramIdList');
+        await GetStorage().remove('deletedProgramIdList');
       } else {
         snackBarErrorException(deleteResponse.data);
       }
@@ -52,7 +52,21 @@ Future<void> deletePrograms(List<int> deletedProgramIdList, Dio dio) async {
       snackBarErrorException(e);
     }
   } else {
-    dprint("deletedProgramIdList is null OR accessToken is null");
+    
+    //check accessToken is null
+    if (GetStorage().read('access_token') == null) {
+      dprint("accessToken is null");
+      Get.snackbar(
+        'Error',
+        'Please login first',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 3),
+        backgroundColor: Get.theme.colorScheme.background,
+        colorText: Get.theme.colorScheme.primary,
+      );
+    }else{
+      dprint("deletedProgramIdList is null");
+    }
   }
 }
 

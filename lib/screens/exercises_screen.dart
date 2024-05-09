@@ -7,14 +7,14 @@ import 'package:get/get.dart';
 import '../controller/all_controller.dart';
 import '../data/load_json.dart';
 
-class Ekran extends StatefulWidget {
-  const Ekran({super.key});
+class ExerciseScreen extends StatefulWidget {
+  const ExerciseScreen({super.key});
 
   @override
-  State<Ekran> createState() => _EkranState();
+  State<ExerciseScreen> createState() => _ExerciseScreenState();
 }
 
-class _EkranState extends State<Ekran> {
+class _ExerciseScreenState extends State<ExerciseScreen> {
   final _allController = Get.put(AllController());
 
   @override
@@ -42,8 +42,6 @@ class _EkranState extends State<Ekran> {
                 () => ListView.builder(
                     itemCount: _allController.movementList.length,
                     itemBuilder: (context, index) {
-                      dprint(getImagePathsLocal(convertToSnakeCase(
-                          _allController.movementList[index].name))[0]);
                       return ListTile(
                           onTap: () {
                             Get.toNamed('/movementDetail',

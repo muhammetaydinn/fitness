@@ -26,18 +26,45 @@ class HomeScreen extends StatelessWidget {
               //TODO: sync data
               // allController.getPrograms();
               //then show snackbar
-              Get.snackbar(
-                'Syncing',
-                'Syncing your programs',
-                snackPosition: SnackPosition.BOTTOM,
-                duration: const Duration(seconds: 3),
-                backgroundColor: Theme.of(context).colorScheme.background,
-                colorText: Colors.black,
-              );
-              //then show status of the sync snackbar
-              await syncPrograms();
+              //show dialog
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Sync Data'),
+                    content: const Text(
+                        'If you have made changes in the local data, it will be synced with the server. And if you have program without exercise it will be deleted. Are you sure you want to sync?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
 
-              //send data to the server
+                          Get.snackbar(
+                            'Syncing',
+                            'Syncing your programs',
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: const Duration(seconds: 3),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            colorText: Colors.black,
+                          );
+                          //then show status of the sync snackbar
+                          await syncPrograms();
+
+                          //send data to the server
+                        },
+                        child: const Text('Yes'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('No'),
+                      )
+                    ],
+                  );
+                },
+              );
             },
           )
         ],

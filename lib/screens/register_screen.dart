@@ -15,15 +15,24 @@ class RegisterScreen extends StatelessWidget {
     //get allcontroller
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+              ),
+              Text(
+                'Register',
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              const SizedBox(height: 16.0), // Add a SizedBox
               TextField(
                 onChanged: allController.name,
                 decoration: const InputDecoration(

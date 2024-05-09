@@ -8,7 +8,7 @@ void snackBarErrorException(
 ) {
   //TODO: BURADA OBJE TİPİNE GÖRE İFLERİ KOY BURADAKİ ERRORRES HATA VERECEK
   dprint(e.toString());
-  if (e.toString().contains("The request took longer than")) {
+  if (e.toString().contains("took longer than")) {
     Get.snackbar("Error", "Connection failed, please try again later",
         snackPosition: SnackPosition.BOTTOM);
   }
