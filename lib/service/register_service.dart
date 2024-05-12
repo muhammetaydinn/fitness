@@ -21,6 +21,7 @@ Future<void> registerUserService(
   try {
     Dio dio = DioConfig.getDio(baseUrl: Api.baseUrl);
     dprint("object: $firstName, $lastName, $email, $password");
+    dprint("url: ${Api.baseUrl + Api.registerApi}");
     var response = await dio.post(
       Api.registerApi,
       data: jsonEncode({
@@ -36,7 +37,8 @@ Future<void> registerUserService(
     if (response.statusCode! >= 200 && response.statusCode! < 300) {
       registerSuccess(response);
     } else {
-      snackBarErrorException(response.data);
+      dprint(response);
+      snackBarErrorException(response);
     }
   } catch (e) {
     snackBarErrorException(e);

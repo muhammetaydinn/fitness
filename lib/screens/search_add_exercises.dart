@@ -6,6 +6,8 @@
 
 import 'package:fitness/service/filter_list.dart';
 import 'package:fitness/service/get_movement.dart';
+import 'package:fitness/widgets/cpv1.dart';
+import 'package:fitness/widgets/cpv2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,17 +42,30 @@ class SearchAddExercisesScreen extends StatelessWidget {
         child: Column(
           children: [
             //Add this CustomPaint widget to the Widget Tre
-            //TODO: EN SON EKLENEBİLECEK FEATURE
+            // EN SON EKLENEBİLECEK FEATURE
+
             // SizedBox(
             //     width: 300,
             //     height: 450,
             //     child: //Add this CustomPaint widget to the Widget Tree
-            //         CustomPaint(
-            //       size: Size(
-            //           MediaQuery.of(context).size.width,
-            //           (MediaQuery.of(context).size.width * 1.6694214876033058)
-            //               .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-            //       painter: RPSCustomPainter(),
+            //         Obx(
+            //       () => _allController.selectedExercises.isEmpty
+            //           ? CustomPaint(
+            //               size: Size(
+            //                   MediaQuery.of(context).size.width,
+            //                   (MediaQuery.of(context).size.width *
+            //                           1.1319444444444444)
+            //                       .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+            //               painter: RPSCustomPainter(),
+            //             )
+            //           : CustomPaint(
+            //               size: Size(
+            //                   MediaQuery.of(context).size.width,
+            //                   (MediaQuery.of(context).size.width *
+            //                           1.1319444444444444)
+            //                       .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+            //               painter: RPSCustomPainter(),
+            //             ),
             //     )),
             Padding(
               padding: const EdgeInsets.all(8.0),

@@ -1,13 +1,13 @@
 //set api endpoints like basurl
 
 class Api {
-  static const baseUrl = 'http://10.0.2.2:8080/api/v1';
+  //emulator
+  // static const baseUrl = 'http://10.0.2.2:8080/api/v1';
+  //live
+  static const baseUrl = 'https://fitnessbackend-dgfk.onrender.com/api/v1';
   // static const baseUrl = 'http://192.168.1.123:8080';
-  static const v1Api = '$baseUrl/api/v1';
   static const registerApi = '/auth/register';
   static const loginApi = '/auth/authenticate';
-  static const refreshTokenApi = '$v1Api/auth/refresh-token';
-  static const demoControllerApi = '$v1Api/demo-controller';
   //{{URL}}/api/v1/program/sync
   static const syncProgramsApi = '/program/sync';
   // {{URL}}/api/v1/program/deleteMultiple
