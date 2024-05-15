@@ -7,8 +7,8 @@ class DioConfig {
 
     BaseOptions options = BaseOptions(
       baseUrl: baseUrl ?? '',
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
+      // connectTimeout: const Duration(seconds: 30),
+      // receiveTimeout: const Duration(seconds: 45),
       headers: {'Content-Type': 'application/json'},
       validateStatus: (status) {
         //TODO: add more status codes
