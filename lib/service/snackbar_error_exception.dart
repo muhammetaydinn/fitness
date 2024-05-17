@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fitness/model/ErrorResponseModel.dart';
 import 'package:fitness/service/other/dprint.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 
 void snackBarErrorException(
   Object e,
@@ -40,10 +40,20 @@ void snackBarErrorException(
       Get.snackbar("Unauthorized",
           "You are not authorized to access this page, please logout and login first",
           snackPosition: SnackPosition.BOTTOM);
+    } //{status: 400, message: Wrong password, timeStamp: 1715907754164}
+    else if (errorRes.message.contains("Wrong password")) {
+      Get.snackbar(
+        "Error",
+        "Wrong password",
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } else {
       Get.snackbar("Error", "Error: ${errorRes.message}",
           snackPosition: SnackPosition.BOTTOM);
     }
+  } else if (e is Response) {
+    Get.snackbar("Error", "Error: ${e.data['message']}",
+        snackPosition: SnackPosition.BOTTOM);
   } else {
     Get.snackbar("Error", "Error: $e", snackPosition: SnackPosition.BOTTOM);
   }

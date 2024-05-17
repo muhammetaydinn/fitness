@@ -1,7 +1,7 @@
+import 'package:fitness/screens/ex_screen_temp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:uuid/uuid.dart';
 
 import '../controller/all_controller.dart';
 import '../data/convert_to_snake_case.dart';
@@ -10,7 +10,6 @@ import '../model/ExerciseModel.dart';
 import '../model/ProgramModel.dart';
 import '../service/other/dprint.dart';
 import '../service/storage/programs.dart';
-import 'exercises_screen.dart';
 
 class AddExercisesScreen extends StatefulWidget {
   const AddExercisesScreen({super.key});
@@ -124,7 +123,6 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
                       false
                   ? col1(index)
                   : Container(),
-              add(context, index),
               const SizedBox(
                 height: 10,
               ),
@@ -162,137 +160,195 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
         },
         icon: const Icon(
           Icons.add_outlined,
-          size: 50,
+          size: 25,
           color: Colors.white,
         ));
   }
 
   GridView col1(int index) {
     return GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
+          childAspectRatio: 1,
         ),
         itemCount:
             _allController.programModel.value.days?[index].exercises?.length ??
                 0,
         itemBuilder: (context, iN) => Obx(
-              () => Container(
-                height: 25,
-                color: Colors.grey,
-                child: Image.asset(getImagePathsLocal(convertToSnakeCase(
-                    //TODO:
-                    //get id from controller and get name from movementlist
-                    _allController.movementList
-                        .where((p0) =>
-                            p0.id ==
-                            _allController.programModel.value.days?[index]
-                                .exercises?[iN].movementId)
-                        .first
-                        .name))[0]),
-                // _allController.programModel.value.days?[index]
-                //         .exercises![iN].movement?.name ??
-                //     ''
+              () => Stack(
+                children: [
+                  Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          color: Colors.grey,
+                          child: Image.asset(
+                              fit: BoxFit.cover,
+                              getImagePathsLocal(convertToSnakeCase(
+                                  //TODO:
+                                  //get id from controller and get name from movementlist
+                                  _allController.movementList
+                                      .where((p0) =>
+                                          p0.id ==
+                                          _allController
+                                              .programModel
+                                              .value
+                                              .days?[index]
+                                              .exercises?[iN]
+                                              .movementId)
+                                      .first
+                                      .name))[0]),
+                          // _allController.programModel.value.days?[index]
+                          //         .exercises![iN].movement?.name ??
+                          //     ''
 
-                // ))[0]),
+                          // ))[0]),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: IconButton(
+                      padding: const EdgeInsets.all(0),
+                      constraints: const BoxConstraints(
+                        minWidth: 30,
+                        minHeight: 30,
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).colorScheme.primary,
+                        ),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        _allController.programModel.update((val) {
+                          val?.days?[index].exercises?.removeAt(iN);
+                        });
+                      },
+                      icon: const Icon(
+                        size: 20,
+                        Icons.delete_outline,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ));
   }
 
   Row row1(int index, BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10),
-                bottomRight: Radius.circular(10),
+        Row(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                  color: Colors.indigoAccent),
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                _allController.programModel.value.days?[index].name ?? '',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              color: Colors.indigoAccent),
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            _allController.programModel.value.days?[index].name ?? '',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
             ),
-          ),
+            add(context, index),
+          ],
         ),
         const SizedBox(
           width: 10,
         ),
-        IconButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-              Theme.of(context).colorScheme.primary,
-            ),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+        Row(
+          children: [
+            IconButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).colorScheme.primary,
+                ),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-            ),
-          ),
-          color: Colors.white,
-          icon: const Icon(Icons.edit_outlined),
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Edit Day'),
-                    content: TextField(
-                      controller: _allController.dayNameController.value,
-                      decoration: const InputDecoration(
-                        labelText: 'Day Name',
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          dprint(
-                              "day name: ${_allController.programModel.value.days?[index].name} changed to ${_allController.dayNameController.value.text}");
-                          _allController.programModel.update((val) {
-                            val?.days?[index].name =
-                                _allController.dayNameController.value.text;
-                          });
-                          dprint(
-                              "day name: ${_allController.programModel.value.days?[index].name} ");
+              color: Colors.white,
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Edit Day'),
+                        content: TextField(
+                          controller: _allController.dayNameController.value,
+                          decoration: const InputDecoration(
+                            labelText: 'Day Name',
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              dprint(
+                                  "day name: ${_allController.programModel.value.days?[index].name} changed to ${_allController.dayNameController.value.text}");
+                              _allController.programModel.update((val) {
+                                val?.days?[index].name =
+                                    _allController.dayNameController.value.text;
+                              });
+                              dprint(
+                                  "day name: ${_allController.programModel.value.days?[index].name} ");
 
-                          _allController.dayNameController.value.text = '';
+                              _allController.dayNameController.value.text = '';
 
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Save'),
-                      ),
-                    ],
-                  );
-                });
-          },
-        ),
-        IconButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-              Theme.of(context).colorScheme.primary,
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Save'),
+                          ),
+                        ],
+                      );
+                    });
+              },
             ),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            IconButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).colorScheme.primary,
+                ),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
+              color: Colors.white,
+              icon: const Icon(Icons.delete_outline),
+              onPressed: () {
+                _deleteExercise(index);
+              },
             ),
-          ),
-          color: Colors.white,
-          icon: const Icon(Icons.delete_outline),
-          onPressed: () {
-            _deleteExercise(index);
-          },
+          ],
         ),
       ],
     );
@@ -330,7 +386,6 @@ class _AddExercisesScreenState extends State<AddExercisesScreen> {
         onPressed: _allController.programName.value.isNotEmpty &&
                 _allController.dayNumber.value.isNotEmpty
             ? () {
-                var uuid = const Uuid();
                 createProgram(_allController.programName.value,
                     int.parse(_allController.dayNumber.value));
 

@@ -1,3 +1,4 @@
+import 'package:fitness/screens/ex_screen_temp.dart';
 import 'package:fitness/screens/exercises_screen.dart';
 import 'package:fitness/screens/home_screen.dart';
 import 'package:fitness/screens/profile_screen.dart';
@@ -33,8 +34,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     loadJsonData().then((value) {
+      //TODO: check if this is necessary
       _allController.setMovementList(value);
       _allController.setFilteredMovementList(value);
+      _allController.setFilteredList(value);
+      _allController.setLastFilteredList(value);
     });
     super.initState();
   }

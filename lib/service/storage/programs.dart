@@ -28,7 +28,7 @@ class ProgramService {
       dprint('data type: ${data.runtimeType}');
       // return (data as List<ProgramModel>).map((e) => (e)).toList();
       return (data as List).map((e) {
-        print('e type: ${e.runtimeType}');
+        dprint('e type: ${e.runtimeType}');
         if (e.runtimeType == ProgramModel) {
           return e as ProgramModel;
         }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fitness/service/other/dprint.dart';
 import 'package:fitness/service/storage/get_token.dart';
 
 class DioConfig {
@@ -7,8 +8,8 @@ class DioConfig {
 
     BaseOptions options = BaseOptions(
       baseUrl: baseUrl ?? '',
-      // connectTimeout: const Duration(seconds: 30),
-      // receiveTimeout: const Duration(seconds: 45),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 45),
       headers: {'Content-Type': 'application/json'},
       validateStatus: (status) {
         //TODO: add more status codes
@@ -25,7 +26,7 @@ class DioConfig {
 
   static Dio getDio({String? baseUrl}) {
     String? token = getToken();
-    print('baseUrl: $baseUrl' "\n" "token: $token");
+    dprint('baseUrl: $baseUrl' "\n" "token: $token");
     return Dio(getBaseOptions(baseUrl: baseUrl));
   }
 }

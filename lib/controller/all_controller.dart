@@ -11,7 +11,6 @@ import 'package:get_storage/get_storage.dart';
 import '../model/ExerciseModel.dart';
 import '../model/auth/RegisterResponseModel.dart';
 import '../service/other/dprint.dart';
-import '../service/login_service.dart';
 
 class AllController extends GetxController {
   var name = ''.obs;
@@ -54,6 +53,40 @@ class AllController extends GetxController {
   var selectedExercises = <ExcerciseModel>[].obs;
   get getSelectedExercises => selectedExercises;
   set setSelectedExercises(value) => selectedExercises = value;
+
+  //category list
+  List<String> selectedCategories = <String>[].obs;
+  get getSelectedCategories => selectedCategories;
+  set setSelectedCategories(value) => selectedCategories = value;
+  //primary muscle group list
+  List<String> selectedPrimaryMuscleGroups = <String>[].obs;
+  get getSelectedPrimaryMuscleGroups => selectedPrimaryMuscleGroups;
+  set setSelectedPrimaryMuscleGroups(value) =>
+      selectedPrimaryMuscleGroups = value;
+
+  //equipment requirements list
+  List<String> selectedEquipmentRequirements = <String>[].obs;
+  get getSelectedEquipmentRequirements => selectedEquipmentRequirements;
+  set setSelectedEquipmentRequirements(value) =>
+      selectedEquipmentRequirements = value;
+
+  //mechanical types list
+  List<String> selectedMechanicalTypes = <String>[].obs;
+  get getSelectedMechanicalTypes => selectedMechanicalTypes;
+  set setSelectedMechanicalTypes(value) => selectedMechanicalTypes = value;
+
+  //difficulty levels list
+  List<String> selectedDifficultyLevels = <String>[].obs;
+  get getSelectedDifficultyLevels => selectedDifficultyLevels;
+  set setSelectedDifficultyLevels(value) => selectedDifficultyLevels = value;
+
+  //strength types list
+  List<String> selectedStrengthTypes = <String>[].obs;
+  get getSelectedStrengthTypes => selectedStrengthTypes;
+  set setSelectedStrengthTypes(value) => selectedStrengthTypes = value;
+
+  List<bool> toggleSelectedCategories =
+      <bool>[false, false, false, false, false, false].obs;
 
   LoginResponseModel loginResponseModel = LoginResponseModel(
       access_token: "",
@@ -121,17 +154,28 @@ class AllController extends GetxController {
 
   set registerResponseModel(value) => _registerResponseModel.value = value;
 
-  final _isValid = false.obs;
 
   RxList<MovementModel> movementList = <MovementModel>[].obs;
   void setMovementList(List<MovementModel> value) {
     movementList.assignAll(value);
   }
-
+  // as a temp layer 2 we will use this for search bar
   RxList<MovementModel> filteredMovementList = <MovementModel>[].obs;
   void setFilteredMovementList(List<MovementModel> value) {
     filteredMovementList.assignAll(value);
   }
+  //as a temp layer 1  we will use this for filter screen
+  RxList<MovementModel> filteredList = <MovementModel>[].obs;
+  void setFilteredList(List<MovementModel> value) {
+    filteredList.assignAll(value);
+  }
+  //last filter list
+  RxList<MovementModel> lastFilteredList = <MovementModel>[].obs;
+  void setLastFilteredList(List<MovementModel> value) {
+    lastFilteredList.assignAll(value);
+  }
+  
+
 
   RxList<ProgramModel> programList = <ProgramModel>[].obs;
   void setProgramList(List<ProgramModel> value) {
@@ -156,8 +200,6 @@ class AllController extends GetxController {
       password.value,
     );
   }
-
-
 
   void addSelectedExercise(MovementModel movementModel) {
     //  add selected exercises list to our allcontroller days i exercises list

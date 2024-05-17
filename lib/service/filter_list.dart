@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 
 import '../controller/all_controller.dart';
 
-void filterList(String name) {
+void filterMovementList(String name) {
   final allController = Get.put(AllController());
 
-  List<MovementModel> filteredList = allController.movementList
+  List<MovementModel> filteredList = allController.filteredMovementList
       .where(
           (element) => element.name.toLowerCase().contains(name.toLowerCase()))
       .toList();
   // update filteredMovementList
-  allController.setFilteredMovementList(filteredList);
+  allController.setLastFilteredList(filteredList);
 }

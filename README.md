@@ -2,14 +2,11 @@
 
 ## Yapılacaklar
 
-- uygulama ui toparla
-- dediğin karmaşayı da cozcem
-- sonra filtre
+
 - loginsiz giriş yapma kaydetme
 - kas tıklama(filtreleme özelliği olarak)
 - çeviri 
 - ek geri bildirim loading
-- create ekranında egzersiz silme yok. Program detaydaki componenti al
 ## EN SON ZAMAN KALIRSA CUSTOM PAINT ILE KAS SECIMI YAPILABILIR
   ![alt text](Screenshot_1715262054.png)
 
@@ -44,3 +41,8 @@
 - 403 hataları için(süre dolması veya ayni mailden baska cihazdan giris yapılması) bir hata sayfası ekle tekkrardan giriş yapmasınıı sağla
 - dockerize spring boot and mysql
 - canlıya al
+- uygulama ui toparla
+- dediğin karmaşayı da cozcem
+- sonra filtre
+- create ekranında egzersiz silme yok. Program detaydaki componenti al
+- 

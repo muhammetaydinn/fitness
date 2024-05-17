@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:fitness/screens/ex_screen_temp.dart';
 import 'package:fitness/service/storage/programs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -317,136 +318,195 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          //right part has raidus
-                          borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(20.0)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text(program.days?[ind].name ?? "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primary,
+                              //right part has raidus
+                              borderRadius: const BorderRadius.horizontal(
+                                  right: Radius.circular(20.0)),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(program.days?[ind].name ?? "",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                      )),
+                            ),
+                          ),
+                          editMode
+                              ? IconButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      Theme.of(context).colorScheme.primary,
+                                    ),
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  icon: const Icon(
+                                    Icons.add,
                                     color: Colors.white,
-                                  )),
-                        ),
+                                  ),
+                                  onPressed: () async {
+                                    // NAVİGATE TO ADD EXERCISE SCREEN
+
+                                    var result = await Get.toNamed(
+                                      '/searchAddExercises',
+                                    );
+                                    dprint('result: $result');
+                                    if (result != null) {
+                                      dprint('result: $result');
+                                      List<ExcerciseModel> exercises = result;
+                                      setState(() {
+                                        for (var i = 0;
+                                            i < exercises.length;
+                                            i++) {
+                                          program.days?[ind].exercises
+                                              ?.add(exercises[i]);
+                                        }
+                                      });
+                                    }
+                                  },
+                                )
+                              : Container()
+                        ],
                       ),
                       editMode
                           ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                IconButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).colorScheme.primary,
-                                    ),
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                          Theme.of(context).colorScheme.primary,
+                                        ),
+                                        shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  color: Colors.white,
-                                  icon: const Icon(Icons.edit_outlined),
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text('Edit Day'),
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                TextField(
-                                                  controller: _allController
-                                                      .dayNameController.value,
-                                                  decoration:
-                                                      const InputDecoration(
-                                                    labelText: 'Day Name',
+                                      color: Colors.white,
+                                      icon: const Icon(Icons.edit_outlined),
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text('Edit Day'),
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    TextField(
+                                                      controller: _allController
+                                                          .dayNameController
+                                                          .value,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        labelText: 'Day Name',
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Cancel'),
                                                   ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        program.days?[ind]
+                                                                .name =
+                                                            _allController
+                                                                .dayNameController
+                                                                .value
+                                                                .text;
+                                                      });
+
+                                                      _allController
+                                                          .dayNameController
+                                                          .value
+                                                          .text = '';
+
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Save'),
+                                                  ),
+                                                ],
+                                              );
+                                            });
+                                      },
+                                    ),
+                                    IconButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                          Theme.of(context).colorScheme.primary,
+                                        ),
+                                        shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                      color: Colors.white,
+                                      icon: const Icon(Icons.delete_outline),
+                                      onPressed: () {
+                                        // _deleteExercise(index);
+                                        //show dialog
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Delete Day'),
+                                              content: const Text(
+                                                  'Are you sure you want to delete this day?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Cancel'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      program.days
+                                                          ?.removeAt(ind);
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Delete'),
                                                 ),
                                               ],
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Cancel'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    program.days?[ind].name =
-                                                        _allController
-                                                            .dayNameController
-                                                            .value
-                                                            .text;
-                                                  });
-
-                                                  _allController
-                                                      .dayNameController
-                                                      .value
-                                                      .text = '';
-
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Save'),
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                  },
-                                ),
-                                IconButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).colorScheme.primary,
-                                    ),
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                  color: Colors.white,
-                                  icon: const Icon(Icons.delete_outline),
-                                  onPressed: () {
-                                    // _deleteExercise(index);
-                                    //show dialog
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Delete Day'),
-                                          content: const Text(
-                                              'Are you sure you want to delete this day?'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Cancel'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  program.days?.removeAt(ind);
-                                                });
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Delete'),
-                                            ),
-                                          ],
+                                            );
+                                          },
                                         );
                                       },
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  ],
+                                )
                               ],
                             )
                           : Container(),
@@ -495,43 +555,6 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                       childAspectRatio: 0.75,
                     ),
                   ),
-                  editMode
-                      ? IconButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.primary,
-                            ),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          color: Theme.of(context).colorScheme.secondary,
-                          icon: const Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
-                          onPressed: () async {
-                            // NAVİGATE TO ADD EXERCISE SCREEN
-
-                            var result = await Get.toNamed(
-                              '/searchAddExercises',
-                            );
-                            dprint('result: $result');
-                            if (result != null) {
-                              dprint('result: $result');
-                              List<ExcerciseModel> exercises = result;
-                              setState(() {
-                                for (var i = 0; i < exercises.length; i++) {
-                                  program.days?[ind].exercises
-                                      ?.add(exercises[i]);
-                                }
-                              });
-                            }
-                          },
-                        )
-                      : Container()
                 ],
               ),
             );

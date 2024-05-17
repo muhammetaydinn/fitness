@@ -50,6 +50,14 @@ class HomeScreen extends StatelessWidget {
                           );
                           //then show status of the sync snackbar
                           await syncPrograms();
+                          Get.snackbar(
+                            'Finished',
+                            'Syncing your programs finished',
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: const Duration(seconds: 3),
+                            backgroundColor: Colors.grey,
+                            colorText: Colors.black,
+                          );
 
                           //send data to the server
                         },

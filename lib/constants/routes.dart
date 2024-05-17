@@ -1,3 +1,4 @@
+import 'package:fitness/screens/filter_screen.dart';
 import 'package:fitness/screens/forgot_password_screen.dart';
 import 'package:fitness/screens/new_password.dart';
 import 'package:fitness/screens/otp_screen.dart';
@@ -35,4 +36,5 @@ List<GetPage> routes = [
   GetPage(name: '/forgotPassword', page: () => ForgotPasswordScreen()),
   GetPage(name: '/otp', page: () => OtpScreen()),
   GetPage(name: '/new-password', page: () => NewPasswordScreen()),
+  GetPage(name: '/filter', page: () =>  FilterScreen()),
 ];

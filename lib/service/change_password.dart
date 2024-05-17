@@ -3,6 +3,7 @@ import 'package:fitness/constants/api.dart';
 import 'package:fitness/controller/all_controller.dart';
 import 'package:fitness/service/dio_config.dart';
 import 'package:fitness/service/other/dprint.dart';
+import 'package:fitness/service/snackbar_error_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,10 +39,7 @@ Future<void> changePassword(
       allController.confirmPasswordController.value.clear();
       allController.visible.value = false;
     } else {
-      dprint(response.data.toString());
-      Get.snackbar("Error", response.data.toString(),
-          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red);
-      dprint(response.statusCode);
+      snackBarErrorException(response);
     }
   } catch (e) {
     dprint(e);
