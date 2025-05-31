@@ -1,8 +1,14 @@
-import 'package:fitness/ui/home_view.dart';
+import 'package:fitness/constants/theme.dart';
+import 'package:fitness/service/init/init_service.dart';
 import 'package:flutter/material.dart';
-import './constants/colors.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'constants/routes.dart';
 
-void main() {
+Future<void> main() async {
+  await GetStorage.init();
+  //TODO: ON INIT
+  await InitService().init();
   runApp(const MyApp());
 }
 
@@ -11,27 +17,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      getPages: routes,
+      initialRoute: "/",
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      darkTheme: ThemeData(
-        colorSchemeSeed: seedColor,
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        //appbar text color to white
-      ),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          brightness: Brightness.light,
-          seedColor: Colors.indigo,
-        ),
-        useMaterial3: true,
-        //appbar text color to white
-        appBarTheme: const AppBarTheme(
-          foregroundColor: Colors.white,
-        ),
-      ),
-      home: const HomeView(),
+      title: 'Fitness',
+      darkTheme: darkTheme,
+      theme: theme,
     );
   }
 }

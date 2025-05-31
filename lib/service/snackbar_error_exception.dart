@@ -1,0 +1,93 @@
+import 'package:dio/dio.dart';
+import 'package:fitness/model/ErrorResponseModel.dart';
+import 'package:fitness/service/other/dprint.dart';
+import 'package:get/get.dart' hide Response;
+
+void snackBarErrorException(
+  Object e,
+) {
+  //TODO: BURADA OBJE TİPİNE GÖRE İFLERİ KOY BURADAKİ ERRORRES HATA VERECEK
+  dprint(e.toString());
+  if (e.toString().contains("took longer than")) {
+    Get.snackbar("Error", "Connection failed, please try again later",
+        snackPosition: SnackPosition.BOTTOM);
+  }
+  //type of e Map<String, dynamic>
+  else if (e is Map<String, dynamic>) {
+    var errorRes = ErrorResponseModel.fromMap(e);
+    dprint("error: ${errorRes.message}");
+
+    // Handle database duplicate entry error
+    if (errorRes.message.contains("Duplicate entry") &&
+        errorRes.message.contains("for key '_user.UK_")) {
+      // Extract email from the error message
+      String email = errorRes.message.split("'")[1];
+      Get.snackbar(
+        "Registration Failed",
+        "This email ($email) is already registered. Please use a different email or try to login.",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 5),
+      );
+    } else if (errorRes.message.contains("Invalid email")) {
+      dprint("error: ${errorRes.message}");
+      Get.snackbar(
+        "Error",
+        "Error registering user: ${errorRes.message}",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else if (errorRes.message
+        .contains("Login Failed One or more fields or invalid")) {
+      Get.snackbar(
+        "Error",
+        "Login Failed One or more fields or invalid",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else if (errorRes.status == 403) {
+      Get.snackbar("Unauthorized",
+          "You are not authorized to access this page, please logout and login first",
+          snackPosition: SnackPosition.BOTTOM);
+    } //{status: 400, message: Wrong password, timeStamp: 1715907754164}
+    else if (errorRes.message.contains("Wrong password")) {
+      Get.snackbar(
+        "Error",
+        "Wrong password",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      Get.snackbar("Error", "Error: ${errorRes.message}",
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  } else if (e is Response) {
+    // Handle Response type errors
+    String message = e.data['message'] ?? '';
+    dprint("Response error message: $message");
+
+    if (message.contains("Duplicate entry") &&
+        message.contains("for key '_user.UK_")) {
+      // Extract email from the error message
+      String email = message.split("'")[1];
+      Get.snackbar(
+        "Registration Failed",
+        "This email ($email) is already registered. Please use a different email or try to login.",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 5),
+      );
+    } else {
+      Get.snackbar("Error", "Error: ${e.data['message']}",
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  } else {
+    Get.snackbar("Error", "Error: $e", snackPosition: SnackPosition.BOTTOM);
+  }
+}
+
+void showLoginRequiredSnackbar() {
+  Get.snackbar(
+    'Giriş Gerekli',
+    'Bu özellik için giriş yapmalısınız.',
+    snackPosition: SnackPosition.BOTTOM,
+    duration: const Duration(seconds: 3),
+    backgroundColor: Get.theme.colorScheme.background,
+    colorText: Get.theme.colorScheme.primary,
+  );
+}

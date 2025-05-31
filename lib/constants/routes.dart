@@ -1,0 +1,40 @@
+import 'package:fitness/screens/filter_screen.dart';
+import 'package:fitness/screens/forgot_password_screen.dart';
+import 'package:fitness/screens/new_password.dart';
+import 'package:fitness/screens/otp_screen.dart';
+import 'package:fitness/screens/program_detail_screen.dart';
+import 'package:get/get.dart';
+
+import '../screens/add_exercises.dart';
+import '../screens/auth_screen.dart';
+import '../screens/home_screen.dart';
+import '../screens/login_screen.dart';
+import '../screens/main_view.dart';
+import '../screens/movement_detail_screen.dart';
+import '../screens/register_screen.dart';
+import '../screens/search_add_exercises.dart';
+
+/*
+List<GetPage> routes = [
+  GetPage(name: "/", page: () => LoginPage(), binding: LoginBinding()),
+  GetPage(name: "/home", page: () => HomePage(), binding: HomeBinding()),
+];
+*/
+List<GetPage> routes = [
+  GetPage(
+    name: '/',
+    page: () => AuthScreen(),
+  ),
+  GetPage(name: '/login', page: () => LoginScreen()),
+  GetPage(name: '/register', page: () => RegisterScreen()),
+  GetPage(name: '/main', page: () => const MainScreen()),
+  GetPage(name: '/addExercise', page: () => const AddExercisesScreen()),
+  GetPage(name: '/searchAddExercises', page: () => SearchAddExercisesScreen()),
+  GetPage(name: '/home', page: () => HomeScreen()),
+  GetPage(name: '/programDetail', page: () => const ProgramDetailScreen()),
+  GetPage(name: '/movementDetail', page: () => MovementDetailScreen()),
+  GetPage(name: '/forgotPassword', page: () => ForgotPasswordScreen()),
+  GetPage(name: '/otp', page: () => OtpScreen()),
+  GetPage(name: '/new-password', page: () => NewPasswordScreen()),
+  GetPage(name: '/filter', page: () =>  FilterScreen()),
+];
