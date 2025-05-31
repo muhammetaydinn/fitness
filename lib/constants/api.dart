@@ -5,7 +5,7 @@ class Api {
   static const baseUrl = 'http://10.0.2.2:8080/api/v1';
   //live
   // static const baseUrl = 'https://fitnessbackend-dgfk.onrender.com/api/v1';
-  // static const baseUrl = 'http://192.168.1.123:8080';
+  // static const baseUrl = 'http://192.168.1.7:8080/api/v1';
   static const registerApi = '/auth/register';
   static const loginApi = '/auth/authenticate';
   //{{URL}}/api/v1/program/sync

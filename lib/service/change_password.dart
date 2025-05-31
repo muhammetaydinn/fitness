@@ -6,12 +6,24 @@ import 'package:fitness/service/other/dprint.dart';
 import 'package:fitness/service/snackbar_error_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 Future<void> changePassword(
   String oldPassword,
   String newPassword,
 ) async {
   final allController = Get.put(AllController());
+  final box = GetStorage();
+  if (box.read('access_token') == null || box.read('refresh_token') == null) {
+    Get.snackbar(
+      'Giriş Gerekli',
+      'Bu özellik için giriş yapmalısınız.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
+    return;
+  }
   Dio dio = DioConfig.getDio(baseUrl: Api.baseUrl);
 
   try {

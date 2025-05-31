@@ -16,11 +16,17 @@ void snackBarErrorException(
   else if (e is Map<String, dynamic>) {
     var errorRes = ErrorResponseModel.fromMap(e);
     dprint("error: ${errorRes.message}");
-    if (errorRes.message.contains("Duplicate ")) {
+
+    // Handle database duplicate entry error
+    if (errorRes.message.contains("Duplicate entry") &&
+        errorRes.message.contains("for key '_user.UK_")) {
+      // Extract email from the error message
+      String email = errorRes.message.split("'")[1];
       Get.snackbar(
-        "Error",
-        "This mail is already registered",
+        "Registration Failed",
+        "This email ($email) is already registered. Please use a different email or try to login.",
         snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 5),
       );
     } else if (errorRes.message.contains("Invalid email")) {
       dprint("error: ${errorRes.message}");
@@ -52,9 +58,36 @@ void snackBarErrorException(
           snackPosition: SnackPosition.BOTTOM);
     }
   } else if (e is Response) {
-    Get.snackbar("Error", "Error: ${e.data['message']}",
-        snackPosition: SnackPosition.BOTTOM);
+    // Handle Response type errors
+    String message = e.data['message'] ?? '';
+    dprint("Response error message: $message");
+
+    if (message.contains("Duplicate entry") &&
+        message.contains("for key '_user.UK_")) {
+      // Extract email from the error message
+      String email = message.split("'")[1];
+      Get.snackbar(
+        "Registration Failed",
+        "This email ($email) is already registered. Please use a different email or try to login.",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 5),
+      );
+    } else {
+      Get.snackbar("Error", "Error: ${e.data['message']}",
+          snackPosition: SnackPosition.BOTTOM);
+    }
   } else {
     Get.snackbar("Error", "Error: $e", snackPosition: SnackPosition.BOTTOM);
   }
+}
+
+void showLoginRequiredSnackbar() {
+  Get.snackbar(
+    'Giriş Gerekli',
+    'Bu özellik için giriş yapmalısınız.',
+    snackPosition: SnackPosition.BOTTOM,
+    duration: const Duration(seconds: 3),
+    backgroundColor: Get.theme.colorScheme.background,
+    colorText: Get.theme.colorScheme.primary,
+  );
 }

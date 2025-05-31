@@ -1,48 +1,60 @@
-# Fitness Programı Uygulaması7
+# 💪 Fitness Program App
+This is a **simple, offline-first fitness program builder app** made with Flutter.
 
-## Yapılacaklar
+Wanna try it right away without building?
 
+👉 [Download APKs from Releases](https://github.com/muhammetaydinn/fitness/releases/latest)
 
-- loginsiz giriş yapma kaydetme
-- kas tıklama(filtreleme özelliği olarak)
-- çeviri 
-- ek geri bildirim loading
-## EN SON ZAMAN KALIRSA CUSTOM PAINT ILE KAS SECIMI YAPILABILIR
-  ![alt text](Screenshot_1715262054.png)
+Users can create workout programs, add exercises, and filter by muscle groups — **all without needing to log in**.  
+If you **don’t want to back up your data**, login is not required at all. Just open the app and start grinding 💥
 
-# not priority
-- movement detail screende radius buttons ile hareketin kasları vb zellikleri gösterebilirim sonra
-- EGER KULLANICI GIRIS YAPMADIYSA YEDEKLEME YAPAMAZ BİR LOGINE YONLENDIR OLUR BITER TEKRARDAN.fARKLI BİR HESAPTAN GIRIS TE AYNI HATAYI VERIYO
-- BASLANGICTA KULLANICININ GIRIS YAPMASINA GEREK DUYMADAN ISLEMINE DEVAM EDEBİLME EKLE.
-- exersiz filtrelemeleri kas grubu etc.
-- resimler yüklenirken bir shimmer eklenmeli
-- PROJE BITEYAZINCA PRINTLERI SIL
-# done
-- hata acaba bizim frommaplerde filan mı ? 
-- BAZEN AYNI ISIMDE OLAN PROGRAMLARDA EXERCİSLERİ 3 KATINI EKLEYEBİLİYOR
-- assetteki json verileri en başta oku ve getx modeline ekle (sürekli okuma yapmasın yani)
-- resimlerin internetten yüklenmesi zor olabilir bunun için iki özellik var
-  - resimlerin internetten yüklenmesi
-    - Şimdilik bu fikirden ilerlencek interneti ve cihazı zorlamaması adına cache ve pagination eklenebilir. 
-  - resimlerin assette olması ✅
-- Her seyi stateless yapmaya çalış
-- egzersizleri birbiri ardında yer değiştirilebilir yap.
-- giris cikis islemlerinde depolamalarını temizlemeyi unutma.
-- profil ekranında kullanıcının bilgilerini göster
-- sifre degistirme kodu ekle
-- sifremi unuttum spring halletsin.
-- app icon
-- splash screen
-- email validasyonu ekle
-- DİO EKLEDIM TUM FROMJSONLARI FROMMAP YAP
-- INTERNET SERVISININ ÇALIŞIP ÇALIŞMADIĞINI GÖSTEREN BİR GÖSTERGE EKLE. TİMEOUT SÜRESİNİ AYARLA HTTP BASE AYARLA 
-- springde program snyclemeyi değiştirmeyi access_tokenden o kişinin programlarını getirerek yap
-- İSSUE hiç egzersizi olmayan program sync edilmez
-- 403 hataları için(süre dolması veya ayni mailden baska cihazdan giris yapılması) bir hata sayfası ekle tekkrardan giriş yapmasınıı sağla
-- dockerize spring boot and mysql
-- canlıya al
-- uygulama ui toparla
-- dediğin karmaşayı da cozcem
-- sonra filtre
-- create ekranında egzersiz silme yok. Program detaydaki componenti al
-- 
+Wanna sync your data across devices?  
+Then you’ll need to set up our backend service — check out the [fitnessBackend](https://github.com/muhammetaydinn/fitnessBackend) repo for that.
+
+Built for speed, privacy, and that no-excuses gym rat lifestyle 🐀💪
+
+## 🔧 To-Do
+
+- [ ] **Muscle filter**: Tap a muscle group to filter exercises accordingly  
+- [ ] **Multi-language support**: Add translations  
+- [ ] **Feedback UI**: Add loading spinners, error messages, empty state screens  
+- [ ] **(Optional)** Use `CustomPaint` for muscle group selection (if time allows)  
+
+---
+
+## 🕓 Not a Priority (for later maybe)
+
+- [ ] Use radius buttons on movement detail screen to show muscles, equipment, etc.  
+- [ ] If user is not logged in, show backup restriction message → redirect to login  
+- [ ] Add filters for exercises (muscle group, equipment, etc.)  
+- [ ] Add shimmer effect while images are loading  
+- [ ] Remove all debug prints before release  
+
+---
+
+## ✅ Done
+
+- [x] Fixed bug where identical programs were duplicating exercises 3x  
+- [x] Asset JSON data is read once and cached in GetX model  
+- [x] Exercises can be reordered via drag & drop  
+- [x] Refactored to use mostly stateless widgets  
+- [x] Cleared local storage on login/logout  
+- [x] Profile screen shows user info  
+- [x] Password change feature added  
+- [x] "Forgot password" handled by Spring backend  
+- [x] App icon and splash screen added  
+- [x] Email validation implemented  
+- [x] Switched to Dio, all `fromJson` → `fromMap` conversion done  
+- [x] Internet connectivity checker and timeout logic added  
+- [x] Program syncing now uses `access_token` to fetch user-specific data  
+- [x] Programs without exercises are no longer synced  
+- [x] 403 errors (session expired / login from another device) now redirect to login screen  
+- [x] Spring Boot + MySQL containerized with Docker  
+- [x] Deployed to production  
+- [x] Cleaned up the UI  
+- [x] Moved exercise delete logic from program detail to program create screen  
+- [x] **Guest mode**: Let users use the app without logging in, save data locally  
+---
+
+> 🧠 **Heads-up:**  
+> - Don’t forget to clean up `print()` statements before shipping  

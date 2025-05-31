@@ -24,18 +24,16 @@ class AuthScreen extends StatelessWidget {
       //check whether access token is not expired
       bool hasExpired = JwtDecoder.isExpired(accessToken);
       if (hasExpired) {
-        // refresh token here and get new access token
-        //OR navigate to login screen
-  
-          dprint('Access token has expired');
-
-        return LoginScreen();
+        dprint('Access token has expired');
+        // Token expired, ama login olmadan da devam edebilsin
+        return const MainScreen();
       } else {
-        //navigate to main screen
+        // Token geçerli, ana ekrana yönlendir
         return const MainScreen();
       }
     } else {
-      return LoginScreen();
+      // Giriş yapılmamışsa da ana ekrana yönlendir
+      return const MainScreen();
     }
   }
 }

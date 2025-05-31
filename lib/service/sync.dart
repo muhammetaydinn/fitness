@@ -10,6 +10,18 @@ import '../model/SyncProgramListModel.dart';
 import 'storage/programs.dart';
 
 Future<void> syncPrograms() async {
+  final box = GetStorage();
+  if (box.read('access_token') == null || box.read('refresh_token') == null) {
+    Get.snackbar(
+      'Giriş Gerekli',
+      'Bu özellik için giriş yapmalısınız.',
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 3),
+      backgroundColor: Get.theme.colorScheme.background,
+      colorText: Get.theme.colorScheme.primary,
+    );
+    return;
+  }
   Dio dio = DioConfig.getDio(baseUrl: Api.baseUrl);
   //get user token
 
@@ -52,7 +64,6 @@ Future<void> deletePrograms(List<int> deletedProgramIdList, Dio dio) async {
       snackBarErrorException(e);
     }
   } else {
-    
     //check accessToken is null
     if (GetStorage().read('access_token') == null) {
       dprint("accessToken is null");
@@ -64,7 +75,7 @@ Future<void> deletePrograms(List<int> deletedProgramIdList, Dio dio) async {
         backgroundColor: Get.theme.colorScheme.background,
         colorText: Get.theme.colorScheme.primary,
       );
-    }else{
+    } else {
       dprint("deletedProgramIdList is null");
     }
   }
